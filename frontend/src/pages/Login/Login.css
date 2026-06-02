@@ -1,0 +1,15 @@
+.auth-form{
+  width:350px;
+  margin:50px auto;
+  display:flex;
+  flex-direction:column;
+  gap:15px;
+}
+
+.auth-form input{
+  padding:12px;
+}
+
+.auth-form button{
+  padding:12px;
+}

@@ -1,0 +1,20 @@
+.sidebar{
+  width:250px;
+  background:#1f2937;
+  color:white;
+  padding:25px;
+}
+
+.sidebar h2{
+  margin-bottom:30px;
+}
+
+.sidebar nav{
+  display:flex;
+  flex-direction:column;
+}
+
+.sidebar a{
+  color:white;
+  margin-bottom:15px;
+}

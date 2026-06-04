@@ -1,0 +1,112 @@
+.add-book-page {
+  min-height: 100vh;
+  padding: 40px 20px;
+}
+
+.add-book-container {
+  max-width: 750px;
+  margin: auto;
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 12px;
+  box-shadow:
+    0 2px 12px
+    rgba(0, 0, 0, 0.08);
+}
+
+.add-book-container h1 {
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+.add-book-container form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.add-book-container input,
+.add-book-container textarea,
+.add-book-container select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  font-size: 15px;
+  outline: none;
+  transition: 0.3s;
+}
+
+.add-book-container input:focus,
+.add-book-container textarea:focus,
+.add-book-container select:focus {
+  border-color: #4f46e5;
+}
+
+.add-book-container textarea {
+  resize: vertical;
+}
+
+.image-upload {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.image-upload label {
+  font-weight: 600;
+}
+
+.uploading-text {
+  text-align: center;
+  font-weight: 500;
+}
+
+.image-preview {
+  display: flex;
+  justify-content: center;
+}
+
+.image-preview img {
+  width: 180px;
+  height: 260px;
+  object-fit: cover;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+}
+
+.add-book-container button {
+  padding: 14px;
+  border: none;
+  border-radius: 8px;
+  background: #4f46e5;
+  color: white;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.add-book-container button:hover {
+  background: #4338ca;
+}
+
+.add-book-container button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .add-book-page {
+    padding: 20px;
+  }
+
+  .add-book-container {
+    padding: 20px;
+  }
+
+  .image-preview img {
+    width: 150px;
+    height: 220px;
+  }
+}

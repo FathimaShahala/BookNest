@@ -1,27 +1,52 @@
+import DashboardLayout
+from "../../layouts/DashboardLayout";
+
+import GoalProgress
+from "../../components/GoalProgress/GoalProgress";
+
+import StatsCard
+from "../../components/StatsCard/StatsCard";
+
 import "./Dashboard.css";
 
 function Dashboard() {
 
   return (
-    <div className="dashboard">
+    <DashboardLayout>
 
       <h1>
-        My Reading Dashboard
+        Welcome Back
       </h1>
 
-      <div className="card">
-        Reading Goal Progress
+      <GoalProgress />
+
+      <div
+        className="stats-grid"
+      >
+
+        <StatsCard
+          title="Books Read"
+          value="24"
+        />
+
+        <StatsCard
+          title="Pages Read"
+          value="7850"
+        />
+
+        <StatsCard
+          title="Reviews"
+          value="12"
+        />
+
+        <StatsCard
+          title="Reading Streak"
+          value="15 Days"
+        />
+
       </div>
 
-      <div className="card">
-        Currently Reading
-      </div>
-
-      <div className="card">
-        Completed Books
-      </div>
-
-    </div>
+    </DashboardLayout>
   );
 }
 

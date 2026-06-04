@@ -5,3 +5,5 @@ build/
 *.log
 .DS_Store
 Thumbs.db
+uploads/book-covers/*
+!uploads/book-covers/.gitkeep

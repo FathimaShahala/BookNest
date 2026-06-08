@@ -1,14 +1,23 @@
 import Sidebar
 from "../components/Sidebar/Sidebar";
 
+import {
+  useTheme,
+} from "../context/ThemeContext";
+
 import "./DashboardLayout.css";
 
 function DashboardLayout({
-  children
+  children,
 }) {
 
+  const { theme } =
+    useTheme();
+
   return (
-    <div className="layout">
+    <div
+      className={`layout ${theme}`}
+    >
 
       <Sidebar />
 

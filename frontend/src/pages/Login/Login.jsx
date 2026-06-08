@@ -3,7 +3,8 @@ import {
 } from "react";
 
 import {
-  useNavigate
+  useNavigate,
+  Link
 } from "react-router-dom";
 
 import {
@@ -26,13 +27,13 @@ function Login() {
   const { setUser } =
     useAuth();
 
-  const [formData,
-    setFormData] =
-    useState({
-      name:"",
-      email:"",
-      password:""
-    });
+  const [
+    formData,
+    setFormData
+  ] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleChange =
     (e) => {
@@ -40,7 +41,7 @@ function Login() {
       setFormData({
         ...formData,
         [e.target.name]:
-        e.target.value
+          e.target.value,
       });
     };
 
@@ -64,51 +65,95 @@ function Login() {
         setUser(data);
 
         toast.success(
-          "Logged in Successfully"
+          "Welcome Back!"
         );
 
-        navigate("/dashboard");
+        navigate(
+          "/dashboard"
+        );
 
-      } catch {
+      } catch (error) {
 
         toast.error(
-          "Login Failed"
+          "Invalid Email or Password"
         );
       }
     };
 
   return (
-    <form
-      className="auth-form"
-      onSubmit={handleSubmit}
-    >
+    <div className="login-page">
 
-      <h2>Login</h2>
+      <div className="login-card">
 
-      <input
-        name="name"
-        placeholder="Name"
-        onChange={handleChange}
-      />
+        <div className="login-header">
 
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-      />
+          <h1>
+            📚 BookNest
+          </h1>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
+          <p>
+            Welcome back to your
+            reading journey
+          </p>
 
-      <button>
-        Login
-      </button>
+        </div>
 
-    </form>
+        <form
+          className="login-form"
+          onSubmit={
+            handleSubmit
+          }
+        >
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
+            required
+          />
+
+          <button
+            type="submit"
+          >
+            Login
+          </button>
+
+        </form>
+
+        <p className="register-link">
+
+          Don't have an account?
+
+          <Link
+            to="/register"
+          >
+            Register
+          </Link>
+
+        </p>
+
+      </div>
+
+    </div>
   );
 }
 

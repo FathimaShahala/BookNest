@@ -8,6 +8,7 @@ import {
 } from "../../services/bookService";
 
 import "./AddBook.css";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 function AddBook() {
   const navigate = useNavigate();
@@ -110,6 +111,7 @@ function AddBook() {
     };
 
   return (
+    <DashboardLayout>
     <div className="add-book-page">
       <div className="add-book-container">
         <h1>
@@ -263,6 +265,7 @@ function AddBook() {
         </form>
       </div>
     </div>
+    </DashboardLayout>
   );
 }
 

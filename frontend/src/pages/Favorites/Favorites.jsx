@@ -2,6 +2,8 @@ import {
   useEffect,
   useState,
 } from "react";
+import DashboardLayout
+from "../../layouts/DashboardLayout";
 
 import {
   getFavorites,
@@ -38,10 +40,11 @@ function Favorites() {
     };
 
   return (
-    <div className="favorites-page">
-      <h1>
-        Favorite Books
-      </h1>
+    <DashboardLayout>
+      <div className="favorites-page">
+        <h1>
+          Favorite Books
+        </h1>
 
       <div className="favorites-grid">
         {books.map(
@@ -71,6 +74,7 @@ function Favorites() {
         )}
       </div>
     </div>
+    </DashboardLayout>
   );
 }
 

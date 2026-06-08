@@ -9,9 +9,9 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-
+      <div className="navbar-logo">
       <h2>BookNest</h2>
-
+      </div>
       <div>
 
         <Link to="/">

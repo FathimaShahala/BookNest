@@ -61,6 +61,13 @@ function Sidebar() {
         </NavLink>
 
         <NavLink
+  to="/achievements"
+  className="sidebar-link"
+>
+  🏆 Achievements
+</NavLink>
+
+        <NavLink
           to="/profile"
           className="sidebar-link"
         >

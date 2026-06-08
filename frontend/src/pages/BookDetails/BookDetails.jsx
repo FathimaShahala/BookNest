@@ -80,27 +80,29 @@ function BookDetails() {
     };
 
   const handleFavorite =
-    async () => {
-      try {
-        if (isFavorite) {
-          await removeFavorite(
-            book._id,
-            user.token
-          );
+  async () => {
+    try {
 
-          setIsFavorite(false);
-        } else {
-          await addFavorite(
-            book._id,
-            user.token
-          );
+      const updatedBook =
+        {
+          ...book,
+          isFavorite:
+            !book.isFavorite,
+        };
 
-          setIsFavorite(true);
-        }
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      const data =
+        await updateBook(
+          id,
+          updatedBook,
+          user.token
+        );
+
+      setBook(data);
+
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
     const checkWishlist =
   async () => {
@@ -240,20 +242,14 @@ function BookDetails() {
 
             <h1>{book.title}</h1>
 
-            <button
-              className="favorite-icon-btn"
-              onClick={
-                handleFavorite
-              }
-            >
-              <FaHeart
-                className={
-                  isFavorite
-                    ? "favorite-active"
-                    : "favorite-inactive"
-                }
-              />
-            </button>
+           <button
+  className="favorite-icon-btn"
+  onClick={handleFavorite}
+>
+  {book.isFavorite
+    ? "❤️"
+    : "🤍"}
+</button>
             <button
   className="wishlist-icon-btn"
   onClick={

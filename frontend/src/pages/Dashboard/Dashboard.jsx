@@ -1,111 +1,128 @@
 import { useEffect, useState } from "react";
 
-import DashboardLayout from "../../layouts/DashboardLayout";
+import DashboardLayout
+from "../../layouts/DashboardLayout";
 
-import GoalProgress from "../../components/GoalProgress/GoalProgress";
-import StatsCard from "../../components/StatsCard/StatsCard";
+import GoalProgress
+from "../../components/GoalProgress/GoalProgress";
 
-import { useAuth } from "../../context/AuthContext";
+import StatsCard
+from "../../components/StatsCard/StatsCard";
 
-import { getBooks } from "../../services/bookService";
-import { getFavorites } from "../../services/favoriteService";
+import StreakCard
+from "../../components/StreakCard/StreakCard";
+
+import { useAuth }
+from "../../context/AuthContext";
+
+import {
+  getStatistics,
+} from "../../services/statsService";
+
+import {
+  getStreak,
+} from "../../services/streakService";
 
 import "./Dashboard.css";
 
 function Dashboard() {
-  const { user } = useAuth();
 
-  const [stats, setStats] = useState({
-    booksRead: 0,
-    pagesRead: 0,
-    reviews: 0,
-    favorites: 0,
-  });
+  const { user } =
+    useAuth();
+
+  const [stats,
+    setStats] =
+    useState(null);
+
+  const [streak,
+    setStreak] =
+    useState(null);
 
   useEffect(() => {
-    loadDashboardData();
+    loadDashboard();
   }, []);
 
-  const loadDashboardData = async () => {
-    try {
-      const books = await getBooks(user.token);
+  const loadDashboard =
+    async () => {
+      try {
 
-      const favorites =
-        await getFavorites(user.token);
+        const statsData =
+          await getStatistics(
+            user.token
+          );
 
-      const completedBooks =
-        books.filter(
-          (book) =>
-            book.readingStatus ===
-            "Completed"
+        const streakData =
+          await getStreak(
+            user.token
+          );
+
+        setStats(
+          statsData
         );
 
-      const totalPages =
-        completedBooks.reduce(
-          (sum, book) =>
-            sum +
-            (book.totalPages || 0),
-          0
+        setStreak(
+          streakData
         );
 
-      const totalReviews =
-        completedBooks.filter(
-          (book) =>
-            book.rating > 0
-        ).length;
+      } catch (error) {
+        console.log(error);
+      }
+    };
 
-      setStats({
-        booksRead:
-          completedBooks.length,
-        pagesRead:
-          totalPages,
-        reviews:
-          totalReviews,
-        favorites:
-          favorites.length,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+  if (!stats || !streak) {
+    return (
+      <DashboardLayout>
+        Loading...
+      </DashboardLayout>
+    );
+  }
 
   return (
     <DashboardLayout>
 
-      <div className="dashboard-header">
-        <h1>
-          Welcome Back,
-          {user?.name}
-        </h1>
-
-        <p>
-          Track your reading
-          journey and goals.
-        </p>
-      </div>
+      <h1>
+        Welcome Back 👋
+      </h1>
 
       <GoalProgress />
+
+      <StreakCard
+        currentStreak={
+          streak.currentStreak
+        }
+        longestStreak={
+          streak.longestStreak
+        }
+      />
 
       <div className="stats-grid">
 
         <StatsCard
           title="Books Read"
-          value={stats.booksRead}
+          value={
+            stats.completedBooks
+          }
         />
 
         <StatsCard
           title="Pages Read"
-          value={stats.pagesRead}
+          value={
+            stats.totalPagesRead
+          }
         />
 
         <StatsCard
-          title="Reviews"
-          value={stats.reviews}
+          title="Currently Reading"
+          value={
+            stats.currentlyReading
+          }
         />
 
         <StatsCard
-          title="Favorites"
-          value={stats.favorites}
+          title="Average Rating"
+          value={
+            stats.averageRating
+          }
         />
 
       </div>

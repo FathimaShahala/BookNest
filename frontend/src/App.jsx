@@ -23,6 +23,12 @@ import Favorites from "./pages/Favorites/Favorites";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import Goals from "./pages/Goals/Goals";
 import Statistics from "./pages/Statistics/Statistics";
+import Achievements from "./pages/Achievements/Achievements";
+import Profile from "./pages/Profile/Profile";
+import EditProfile from "./pages/EditProfile/EditProfile";
+
+import Settings
+from "./pages/Settings/Settings";
   
 function App() {
   return (
@@ -145,6 +151,41 @@ function App() {
   element={
     <ProtectedRoute>
       <Statistics />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/achievements"
+  element={
+    <ProtectedRoute>
+      <Achievements />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/profile"
+  element={
+    <ProtectedRoute>
+      <Profile />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/edit-profile"
+  element={
+    <ProtectedRoute>
+      <EditProfile />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/settings"
+  element={
+    <ProtectedRoute>
+      <Settings />
     </ProtectedRoute>
   }
 />

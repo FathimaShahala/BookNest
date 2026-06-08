@@ -3,7 +3,8 @@ import {
 } from "react";
 
 import {
-  useNavigate
+  useNavigate,
+  Link
 } from "react-router-dom";
 
 import {
@@ -26,13 +27,14 @@ function Register() {
   const { setUser } =
     useAuth();
 
-  const [formData,
-    setFormData] =
-    useState({
-      name:"",
-      email:"",
-      password:""
-    });
+  const [
+    formData,
+    setFormData
+  ] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleChange =
     (e) => {
@@ -40,7 +42,7 @@ function Register() {
       setFormData({
         ...formData,
         [e.target.name]:
-        e.target.value
+          e.target.value,
       });
     };
 
@@ -64,12 +66,14 @@ function Register() {
         setUser(data);
 
         toast.success(
-          "Registered Successfully"
+          "Account Created Successfully!"
         );
 
-        navigate("/dashboard");
+        navigate(
+          "/dashboard"
+        );
 
-      } catch {
+      } catch (error) {
 
         toast.error(
           "Registration Failed"
@@ -78,37 +82,91 @@ function Register() {
     };
 
   return (
-    <form
-      className="auth-form"
-      onSubmit={handleSubmit}
-    >
+    <div className="register-page">
 
-      <h2>Register</h2>
+      <div className="register-card">
 
-      <input
-        name="name"
-        placeholder="Name"
-        onChange={handleChange}
-      />
+        <div className="register-header">
 
-      <input
-        name="email"
-        placeholder="Email"
-        onChange={handleChange}
-      />
+          <h1>
+            📚 Join BookNest
+          </h1>
 
-      <input
-        type="password"
-        name="password"
-        placeholder="Password"
-        onChange={handleChange}
-      />
+          <p>
+            Start your reading journey today
+          </p>
 
-      <button>
-        Register
-      </button>
+        </div>
 
-    </form>
+        <form
+          className="register-form"
+          onSubmit={
+            handleSubmit
+          }
+        >
+
+          <input
+            type="text"
+            name="name"
+            placeholder="Full Name"
+            value={
+              formData.name
+            }
+            onChange={
+              handleChange
+            }
+            required
+          />
+
+          <input
+            type="email"
+            name="email"
+            placeholder="Email Address"
+            value={
+              formData.email
+            }
+            onChange={
+              handleChange
+            }
+            required
+          />
+
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            value={
+              formData.password
+            }
+            onChange={
+              handleChange
+            }
+            required
+          />
+
+          <button
+            type="submit"
+          >
+            Create Account
+          </button>
+
+        </form>
+
+        <p className="login-link">
+
+          Already have an account?
+
+          <Link
+            to="/login"
+          >
+            Login
+          </Link>
+
+        </p>
+
+      </div>
+
+    </div>
   );
 }
 

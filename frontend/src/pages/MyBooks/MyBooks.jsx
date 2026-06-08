@@ -12,6 +12,7 @@ import BookCard from "../../components/BookCard/BookCard";
 import StatsSection from "../../components/StatsSection/StatsSection";
 
 import "./MyBooks.css";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 function MyBooks() {
 
@@ -125,7 +126,8 @@ function MyBooks() {
   }
 
   return (
-    <div className="books-page">
+    <DashboardLayout>
+      <div className="books-page">
 
       <div className="books-header">
 
@@ -276,6 +278,7 @@ function MyBooks() {
       )}
 
     </div>
+    </DashboardLayout>
   );
 }
 

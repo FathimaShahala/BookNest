@@ -1,0 +1,43 @@
+.profile-page {
+  display: flex;
+  justify-content: center;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 700px;
+  background: white;
+  padding: 30px;
+  border-radius: 16px;
+  text-align: center;
+  box-shadow:
+    0 4px 15px
+    rgba(0,0,0,0.08);
+}
+
+.profile-image {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  object-fit: cover;
+  margin-bottom: 20px;
+}
+
+.profile-info {
+  text-align: left;
+  margin-top: 25px;
+}
+
+.profile-info h3 {
+  margin-top: 15px;
+}
+
+.edit-profile-btn {
+  display: inline-block;
+  margin-top: 20px;
+  padding: 12px 20px;
+  background: #4caf50;
+  color: white;
+  border-radius: 8px;
+  text-decoration: none;
+}

@@ -1,9 +1,52 @@
-.layout{
-  display:flex;
-  min-height:100vh;
+.layout {
+  display: flex;
+  min-height: 100vh;
+  transition: all 0.3s ease;
 }
 
-.main-content{
-  flex:1;
-  padding:30px;
+/* Main Content */
+
+.main-content {
+  flex: 1;
+  padding: 25px;
+  overflow-y: auto;
+  transition: all 0.3s ease;
+}
+
+/* Light Theme */
+
+.layout.light {
+  background: #f5f7fb;
+  color: #222;
+}
+
+.layout.light .main-content {
+  background: #f5f7fb;
+  color: #222;
+}
+
+/* Dark Theme */
+
+.layout.dark {
+  background: #121212;
+  color: #ffffff;
+}
+
+.layout.dark .main-content {
+  background: #121212;
+  color: #ffffff;
+}
+
+/* Responsive */
+
+@media (max-width: 768px) {
+
+  .layout {
+    flex-direction: column;
+  }
+
+  .main-content {
+    padding: 15px;
+  }
+
 }

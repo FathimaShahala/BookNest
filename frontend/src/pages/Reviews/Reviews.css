@@ -1,0 +1,36 @@
+.reviews-page {
+  min-height: 100vh;
+  padding: 30px 20px;
+}
+
+.reviews-container {
+  max-width: 900px;
+  margin: auto;
+}
+
+.reviews-container h1 {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.reviews-list {
+  margin-top: 30px;
+}
+
+.no-reviews {
+  text-align: center;
+  background: white;
+  padding: 40px;
+  border-radius: 15px;
+  box-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.08);
+}
+
+.reviews-loading {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 18px;
+}

@@ -46,4 +46,4 @@ const protect = async (
   }
 };
 
-module.exports = { protect };
+module.exports = protect ;

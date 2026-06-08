@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { FaHeart,FaBookmark } from "react-icons/fa";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -8,6 +9,18 @@ import {
   updateBook,
 } from "../../services/bookService";
 
+import {
+  addFavorite,
+  removeFavorite,
+  getFavorites,
+} from "../../services/favoriteService";
+
+import {
+  addWishlist,
+  removeWishlist,
+  getWishlist,
+} from "../../services/wishlistService";
+
 import ProgressTracker from "../../components/ProgressTracker/ProgressTracker";
 import NotesSection from "../../components/NotesSection/NotesSection";
 
@@ -15,16 +28,19 @@ import "./BookDetails.css";
 
 function BookDetails() {
   const { id } = useParams();
-
   const { user } = useAuth();
 
   const [book, setBook] = useState(null);
-
-  const [loading, setLoading] =
-    useState(true);
+  const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] =
+    useState(false);
+    const [isWishlist, setIsWishlist] =
+  useState(false);
 
   useEffect(() => {
     loadBook();
+    checkFavorite();
+    checkWishlist();
   }, []);
 
   const loadBook = async () => {
@@ -43,12 +59,101 @@ function BookDetails() {
     }
   };
 
-  const addNote = async (note) => {
+  const checkFavorite =
+    async () => {
+      try {
+        const favorites =
+          await getFavorites(
+            user.token
+          );
+
+        const exists =
+          favorites.some(
+            (fav) =>
+              fav._id === id
+          );
+
+        setIsFavorite(exists);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+  const handleFavorite =
+    async () => {
+      try {
+        if (isFavorite) {
+          await removeFavorite(
+            book._id,
+            user.token
+          );
+
+          setIsFavorite(false);
+        } else {
+          await addFavorite(
+            book._id,
+            user.token
+          );
+
+          setIsFavorite(true);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    const checkWishlist =
+  async () => {
+    try {
+      const wishlist =
+        await getWishlist(
+          user.token
+        );
+
+      const exists =
+        wishlist.some(
+          (item) =>
+            item._id === id
+        );
+
+      setIsWishlist(exists);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const handleWishlist =
+  async () => {
+    try {
+      if (isWishlist) {
+        await removeWishlist(
+          book._id,
+          user.token
+        );
+
+        setIsWishlist(false);
+      } else {
+        await addWishlist(
+          book._id,
+          user.token
+        );
+
+        setIsWishlist(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const addNote = async (
+    note
+  ) => {
     try {
       const updatedBook = {
         ...book,
         notes: [
-          ...(book.notes || []),
+          ...(book.notes ||
+            []),
           note,
         ],
       };
@@ -65,32 +170,32 @@ function BookDetails() {
     }
   };
 
-  const deleteNote = async (
-    index
-  ) => {
-    try {
-      const updatedNotes =
-        book.notes.filter(
-          (_, i) =>
-            i !== index
+  const deleteNote =
+    async (index) => {
+      try {
+        const updatedNotes =
+          book.notes.filter(
+            (_, i) =>
+              i !== index
+          );
+
+        const updatedBook = {
+          ...book,
+          notes:
+            updatedNotes,
+        };
+
+        await updateBook(
+          id,
+          updatedBook,
+          user.token
         );
 
-      const updatedBook = {
-        ...book,
-        notes: updatedNotes,
-      };
-
-      await updateBook(
-        id,
-        updatedBook,
-        user.token
-      );
-
-      setBook(updatedBook);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+        setBook(updatedBook);
+      } catch (error) {
+        console.error(error);
+      }
+    };
 
   if (loading) {
     return (
@@ -110,14 +215,14 @@ function BookDetails() {
 
   return (
     <div className="book-details-page">
+
       <div className="book-details-card">
 
         <div className="book-cover-section">
+
           {book.coverImage ? (
             <img
-              src={
-                book.coverImage
-              }
+              src={book.coverImage}
               alt={book.title}
               className="book-cover"
             />
@@ -126,10 +231,45 @@ function BookDetails() {
               No Cover
             </div>
           )}
+
         </div>
 
         <div className="book-info-section">
-          <h1>{book.title}</h1>
+
+          <div className="title-row">
+
+            <h1>{book.title}</h1>
+
+            <button
+              className="favorite-icon-btn"
+              onClick={
+                handleFavorite
+              }
+            >
+              <FaHeart
+                className={
+                  isFavorite
+                    ? "favorite-active"
+                    : "favorite-inactive"
+                }
+              />
+            </button>
+            <button
+  className="wishlist-icon-btn"
+  onClick={
+    handleWishlist
+  }
+>
+  <FaBookmark
+    className={
+      isWishlist
+        ? "wishlist-active"
+        : "wishlist-inactive"
+    }
+  />
+</button>
+
+          </div>
 
           <h3>
             by {book.author}
@@ -140,45 +280,47 @@ function BookDetails() {
           </p>
 
           <span className="status-badge">
-            {
-              book.readingStatus
-            }
+            {book.readingStatus}
           </span>
 
           <div className="description">
-            <h4>
-              Description
-            </h4>
+            <h4>Description</h4>
 
             <p>
-              {book.description ||
-                "No description available."}
+              {book.description}
             </p>
           </div>
 
           <div className="book-stats">
+
             <div>
               <strong>
-                Total Pages:
-              </strong>{" "}
-              {book.totalPages}
+                Total Pages
+              </strong>
+              <br />
+              {
+                book.totalPages
+              }
             </div>
 
             <div>
               <strong>
-                Current Page:
-              </strong>{" "}
-              {book.currentPage}
+                Current Page
+              </strong>
+              <br />
+              {
+                book.currentPage
+              }
             </div>
 
             <div>
               <strong>
-                Rating:
-              </strong>{" "}
-              {book.rating ||
-                0}
-              /5
+                Rating
+              </strong>
+              <br />
+              {book.rating || 0}/5
             </div>
+
           </div>
 
           <ProgressTracker
@@ -189,7 +331,29 @@ function BookDetails() {
               book.totalPages
             }
           />
+
+          <div className="book-actions">
+
+            <Link
+              to={`/edit-book/${book._id}`}
+              className="edit-book-btn"
+            >
+              Edit Book
+            </Link>
+
+            <Link
+              to={`/reviews/${book._id}`}
+              className="reviews-btn"
+            >
+              Reviews
+            </Link>
+
+            
+
+          </div>
+
         </div>
+
       </div>
 
       <NotesSection
@@ -201,6 +365,7 @@ function BookDetails() {
           deleteNote
         }
       />
+
     </div>
   );
 }

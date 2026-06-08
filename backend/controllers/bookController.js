@@ -26,7 +26,7 @@ const createBook = async (req, res) => {
   }
 };
 
-// Get All Books of Logged In User
+// Get All Books
 const getBooks = async (req, res) => {
   try {
     const books = await Book.find({
@@ -43,7 +43,7 @@ const getBooks = async (req, res) => {
   }
 };
 
-// Get Single Book
+// Get Single Book By ID
 const getBook = async (req, res) => {
   try {
     const book = await Book.findOne({

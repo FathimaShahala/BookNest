@@ -1,57 +1,85 @@
+import { NavLink } from "react-router-dom";
 import "./Sidebar.css";
 
-import {
-  Link
-} from "react-router-dom";
-
 function Sidebar() {
-
   return (
-    <aside
-      className="sidebar"
-    >
+    <aside className="sidebar">
 
-      <h2>
-        BookNest
-      </h2>
+      <div className="sidebar-logo">
+        <h2>📚 BookNest</h2>
+      </div>
 
-      <nav>
+      <nav className="sidebar-nav">
 
-        <Link
+        <NavLink
           to="/dashboard"
+          className="sidebar-link"
         >
-          Dashboard
-        </Link>
+          🏠 Dashboard
+        </NavLink>
 
-        <Link
+        <NavLink
           to="/books"
+          className="sidebar-link"
         >
-          My Books
-        </Link>
+          📖 My Books
+        </NavLink>
 
-        <Link
-          to="/goals"
+        <NavLink
+          to="/add-book"
+          className="sidebar-link"
         >
-          Goals
-        </Link>
+          ➕ Add Book
+        </NavLink>
 
-        <Link
-          to="/reviews"
-        >
-          Reviews
-        </Link>
-
-        <Link
+        <NavLink
           to="/favorites"
+          className="sidebar-link"
         >
-          Favorites
-        </Link>
+          ⭐ Favorites
+        </NavLink>
 
-        <Link
-          to="/profile"
+        <NavLink
+          to="/wishlist"
+          className="sidebar-link"
         >
-          Profile
-        </Link>
+          📚 Wishlist
+        </NavLink>
+
+          <NavLink
+          to="/goals"
+          className="sidebar-link"
+        >
+          🎯 Reading Goals
+        </NavLink>
+
+        <NavLink
+          to="/statistics"
+          className="sidebar-link"
+        >
+          📊 Statistics
+        </NavLink>
+
+        <NavLink
+          to="/profile"
+          className="sidebar-link"
+        >
+          👤 Profile
+        </NavLink>
+
+        <NavLink
+          to="/settings"
+          className="sidebar-link"
+        >
+          ⚙️ Settings
+        </NavLink>
+
+        <NavLink
+          to="/logout"
+          className="sidebar-link logout"
+        >
+          🚪 Logout
+        </NavLink>
 
       </nav>
 

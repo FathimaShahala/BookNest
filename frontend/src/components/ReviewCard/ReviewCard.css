@@ -1,0 +1,28 @@
+.review-card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  margin-bottom: 20px;
+  box-shadow:
+    0 2px 10px
+    rgba(0, 0, 0, 0.08);
+}
+
+.review-stars {
+  color: #fbbf24;
+  font-size: 22px;
+}
+
+.review-card h3 {
+  margin: 10px 0;
+}
+
+.review-card button {
+  margin-top: 15px;
+  border: none;
+  background: crimson;
+  color: white;
+  padding: 8px 15px;
+  border-radius: 6px;
+  cursor: pointer;
+}

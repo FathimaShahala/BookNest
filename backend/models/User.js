@@ -42,7 +42,17 @@ const userSchema = mongoose.Schema(
     monthlyGoal: {
       type: Number,
       default: 1
-    }
+    },
+
+    favorites: [{
+ type: mongoose.Schema.Types.ObjectId,
+ ref: "Book"
+}],
+
+wishlist: [{
+ type: mongoose.Schema.Types.ObjectId,
+ ref: "Book"
+}]
   },
   {
     timestamps: true

@@ -1,0 +1,33 @@
+.goals-page {
+  max-width: 600px;
+}
+
+.goal-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+.goal-form input {
+  padding: 12px;
+
+  border: 1px solid #ddd;
+
+  border-radius: 8px;
+}
+
+.goal-form button {
+  padding: 12px;
+
+  border: none;
+
+  background: #4f46e5;
+
+  color: white;
+
+  border-radius: 8px;
+
+  cursor: pointer;
+}

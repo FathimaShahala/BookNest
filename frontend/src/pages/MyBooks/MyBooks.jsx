@@ -5,44 +5,65 @@ import { useAuth } from "../../context/AuthContext";
 
 import {
   getBooks,
-  deleteBook
+  deleteBook,
 } from "../../services/bookService";
 
 import BookCard from "../../components/BookCard/BookCard";
 import StatsSection from "../../components/StatsSection/StatsSection";
 
-import "./MyBooks.css";
 import DashboardLayout from "../../layouts/DashboardLayout";
+
+import "./MyBooks.css";
 
 function MyBooks() {
 
-  const { user } = useAuth();
+  const { user } =
+    useAuth();
 
-  const [books, setBooks] = useState([]);
+  const [
+    books,
+    setBooks,
+  ] = useState([]);
 
-  const [search, setSearch] =
-    useState("");
+  const [
+    search,
+    setSearch,
+  ] = useState("");
 
-  const [status, setStatus] =
-    useState("");
+  const [
+    activeFilter,
+    setActiveFilter,
+  ] = useState("All");
 
-  const [genre, setGenre] =
-    useState("");
+  const [
+    genre,
+    setGenre,
+  ] = useState("");
 
-  const [sort, setSort] =
-    useState("");
+  const [
+    sort,
+    setSort,
+  ] = useState("");
 
   useEffect(() => {
 
     const loadBooks =
       async () => {
 
-        const data =
-          await getBooks(
-            user.token
-          );
+        try {
 
-        setBooks(data);
+          const data =
+            await getBooks(
+              user.token
+            );
+
+          setBooks(data);
+
+        } catch (error) {
+
+          console.log(error);
+
+        }
       };
 
     if (user) {
@@ -77,207 +98,396 @@ function MyBooks() {
         );
 
       } catch (error) {
-        console.error(error);
+
+        console.log(error);
+
       }
     };
 
-  let filteredBooks =
-    books.filter((book) => {
+  const genres = [
+    ...new Set(
+      books.map(
+        (book) =>
+          book.genre
+      )
+    ),
+  ];
 
-      const searchMatch =
-        book.title
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          );
+  const totalBooks =
+    books.length;
 
-      const statusMatch =
-        status === "" ||
+  const wantToReadCount =
+    books.filter(
+      (book) =>
         book.readingStatus ===
-          status;
+        "Want To Read"
+    ).length;
 
-      const genreMatch =
-        genre === "" ||
-        book.genre === genre;
+  const readingCount =
+    books.filter(
+      (book) =>
+        book.readingStatus ===
+        "Currently Reading"
+    ).length;
 
-      return (
-        searchMatch &&
-        statusMatch &&
-        genreMatch
+  const nextCount =
+    books.filter(
+      (book) =>
+        book.readingStatus ===
+        "Next To Read"
+    ).length;
+
+  const completedCount =
+    books.filter(
+      (book) =>
+        book.readingStatus ===
+        "Completed"
+    ).length;
+
+  const favoritesCount =
+    books.filter(
+      (book) =>
+        book.isFavorite
+    ).length;
+
+  let filteredBooks =
+    books.filter(
+      (book) => {
+
+        const searchMatch =
+
+          book.title
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            ) ||
+
+          book.author
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            );
+
+        let statusMatch =
+          true;
+
+        if (
+          activeFilter ===
+          "Favorites"
+        ) {
+
+          statusMatch =
+            book.isFavorite;
+
+        } else if (
+          activeFilter !==
+          "All"
+        ) {
+
+          statusMatch =
+            book.readingStatus ===
+            activeFilter;
+        }
+
+        const genreMatch =
+
+          genre === "" ||
+
+          book.genre ===
+          genre;
+
+        return (
+          searchMatch &&
+          statusMatch &&
+          genreMatch
+        );
+      }
+    );
+
+  switch (sort) {
+
+    case "title":
+
+      filteredBooks.sort(
+        (a, b) =>
+          a.title.localeCompare(
+            b.title
+          )
       );
-    });
+      break;
 
-  if (sort === "title") {
-    filteredBooks.sort(
-      (a, b) =>
-        a.title.localeCompare(
-          b.title
-        )
-    );
-  }
+    case "author":
 
-  if (sort === "author") {
-    filteredBooks.sort(
-      (a, b) =>
-        a.author.localeCompare(
-          b.author
-        )
-    );
+      filteredBooks.sort(
+        (a, b) =>
+          a.author.localeCompare(
+            b.author
+          )
+      );
+      break;
+
+    case "rating":
+
+      filteredBooks.sort(
+        (a, b) =>
+          b.rating -
+          a.rating
+      );
+      break;
+
+    case "pages":
+
+      filteredBooks.sort(
+        (a, b) =>
+          b.totalPages -
+          a.totalPages
+      );
+      break;
+
+    default:
+      break;
   }
 
   return (
     <DashboardLayout>
+
       <div className="books-page">
 
-      <div className="books-header">
+        <div className="books-header">
 
-        <div>
-          <h1>
-            📚 My Bookshelf
-          </h1>
+          <div>
+
+            <h1>
+              📚 My Bookshelf
+            </h1>
+
+          </div>
+
+          <Link
+            to="/add-book"
+            className="add-book-btn"
+          >
+            + Add Book
+          </Link>
+
         </div>
 
-        <Link
-          to="/add-book"
-          className="add-book-btn"
-        >
-          + Add Book
-        </Link>
-
-      </div>
-
-      <StatsSection books={books} />
-
-      <div className="filters">
-
-        <input
-          type="text"
-          placeholder="Search..."
-          value={search}
-          onChange={(e) =>
-            setSearch(
-              e.target.value
-            )
-          }
+        <StatsSection
+          books={books}
         />
 
-        <select
-          value={status}
-          onChange={(e) =>
-            setStatus(
-              e.target.value
-            )
-          }
-        >
-          <option value="">
-            All Status
-          </option>
+        <div className="status-filters">
 
-          <option value="Want To Read">
-            Want To Read
-          </option>
+          <button
+            className={
+              activeFilter ===
+              "All"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "All"
+              )
+            }
+          >
+            All ({totalBooks})
+          </button>
 
-          <option value="Currently Reading">
-            Currently Reading
-          </option>
+          <button
+            className={
+              activeFilter ===
+              "Want To Read"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "Want To Read"
+              )
+            }
+          >
+            📚 Want To Read
+            ({wantToReadCount})
+          </button>
 
-          <option value="Next To Read">
-            Next To Read
-          </option>
+          <button
+            className={
+              activeFilter ===
+              "Currently Reading"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "Currently Reading"
+              )
+            }
+          >
+            📖 Reading
+            ({readingCount})
+          </button>
 
-          <option value="Completed">
-            Completed
-          </option>
-        </select>
+          <button
+            className={
+              activeFilter ===
+              "Next To Read"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "Next To Read"
+              )
+            }
+          >
+            ⏭ Next
+            ({nextCount})
+          </button>
 
-        <select
-          value={genre}
-          onChange={(e) =>
-            setGenre(
-              e.target.value
-            )
-          }
-        >
-          <option value="">
-            All Genres
-          </option>
+          <button
+            className={
+              activeFilter ===
+              "Completed"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "Completed"
+              )
+            }
+          >
+            ✅ Completed
+            ({completedCount})
+          </button>
 
-          <option value="Fiction">
-            Fiction
-          </option>
+          <button
+            className={
+              activeFilter ===
+              "Favorites"
+                ? "active"
+                : ""
+            }
+            onClick={() =>
+              setActiveFilter(
+                "Favorites"
+              )
+            }
+          >
+            ❤️ Favorites
+            ({favoritesCount})
+          </button>
 
-          <option value="Self Help">
-            Self Help
-          </option>
+        </div>
 
-          <option value="Biography">
-            Biography
-          </option>
+        <div className="filters">
 
-          <option value="Productivity">
-            Productivity
-          </option>
-        </select>
+          <input
+            type="text"
+            placeholder="🔍 Search by title or author"
+            value={search}
+            onChange={(e) =>
+              setSearch(
+                e.target.value
+              )
+            }
+          />
 
-        <select
-          value={sort}
-          onChange={(e) =>
-            setSort(
-              e.target.value
-            )
-          }
-        >
-          <option value="">
-            Sort By
-          </option>
+          <select
+            value={genre}
+            onChange={(e) =>
+              setGenre(
+                e.target.value
+              )
+            }
+          >
+            <option value="">
+              All Genres
+            </option>
 
-          <option value="title">
-            Title
-          </option>
+            {genres.map(
+              (genreName) => (
+                <option
+                  key={genreName}
+                  value={genreName}
+                >
+                  {genreName}
+                </option>
+              )
+            )}
+          </select>
 
-          <option value="author">
-            Author
-          </option>
-        </select>
+          <select
+            value={sort}
+            onChange={(e) =>
+              setSort(
+                e.target.value
+              )
+            }
+          >
+            <option value="">
+              Sort By
+            </option>
+
+            <option value="title">
+              Title A-Z
+            </option>
+
+            <option value="author">
+              Author A-Z
+            </option>
+
+            <option value="rating">
+              Highest Rating
+            </option>
+
+            <option value="pages">
+              Most Pages
+            </option>
+          </select>
+
+        </div>
+
+        {filteredBooks.length === 0 ? (
+
+          <div className="empty-state">
+
+            <h2>
+              No books found 📚
+            </h2>
+
+            <p>
+              Try changing
+              your filters.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="books-grid">
+
+            {filteredBooks.map(
+              (book) => (
+
+                <BookCard
+                  key={book._id}
+                  book={book}
+                  onDelete={
+                    handleDelete
+                  }
+                />
+
+              )
+            )}
+
+          </div>
+
+        )}
 
       </div>
 
-      {filteredBooks.length === 0 ? (
-
-        <div className="empty-state">
-
-          <h2>
-            No books found 📚
-          </h2>
-
-          <p>
-            Start adding books
-            to your shelf.
-          </p>
-
-        </div>
-
-      ) : (
-
-        <div className="books-grid">
-
-          {filteredBooks.map(
-            (book) => (
-              <BookCard
-                key={book._id}
-                book={book}
-                onDelete={
-                  handleDelete
-                }
-              />
-            )
-          )}
-
-        </div>
-
-      )}
-
-    </div>
     </DashboardLayout>
   );
 }

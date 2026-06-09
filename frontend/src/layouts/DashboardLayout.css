@@ -1,17 +1,19 @@
 .layout {
   display: flex;
   min-height: 100vh;
-  transition: all 0.3s ease;
 }
-
-/* Main Content */
 
 .main-content {
   flex: 1;
-  padding: 25px;
+
+  /* margin-left: 260px; */
+
+  height: 100vh;
   overflow-y: auto;
-  transition: all 0.3s ease;
+
+  padding: 25px;
 }
+
 
 /* Light Theme */
 

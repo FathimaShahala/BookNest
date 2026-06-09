@@ -1,3 +1,4 @@
+const Book = require("../models/Book");
 const Goal = require("../models/Goal");
 
 const getGoal = async (req, res) => {
@@ -47,7 +48,48 @@ const saveGoal = async (req, res) => {
   }
 };
 
+const getGoalProgress = async (req, res) => {
+  try {
+    const goal = await Goal.findOne({
+      userId: req.user.id,
+    });
+
+    const completedBooks =
+      await Book.countDocuments({
+        userId: req.user.id,
+        readingStatus: "Completed",
+      });
+
+    const yearlyGoal =
+      goal?.yearlyGoal || 0;
+
+    const monthlyGoal =
+      goal?.monthlyGoal || 0;
+
+    const yearlyProgress =
+      yearlyGoal > 0
+        ? Math.round(
+            (completedBooks /
+              yearlyGoal) *
+              100
+          )
+        : 0;
+
+    res.json({
+      yearlyGoal,
+      monthlyGoal,
+      completedBooks,
+      yearlyProgress,
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   getGoal,
   saveGoal,
+  getGoalProgress,
 };

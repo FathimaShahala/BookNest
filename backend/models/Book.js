@@ -73,7 +73,11 @@ const bookSchema =
             .ObjectId,
         ref: "User",
         required: true
-      }
+      },
+      isFavorite: {
+  type: Boolean,
+  default: false,
+},
     },
     {
       timestamps: true

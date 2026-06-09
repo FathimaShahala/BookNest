@@ -2,6 +2,8 @@
   padding: 30px;
 }
 
+/* Header */
+
 .books-header {
   display: flex;
   justify-content: space-between;
@@ -12,6 +14,7 @@
 
 .books-header h1 {
   margin-bottom: 5px;
+  color: #1f2937;
 }
 
 .books-header p {
@@ -22,14 +25,51 @@
   background: #4f46e5;
   color: white;
   padding: 12px 18px;
-  border-radius: 8px;
+  border-radius: 10px;
   font-weight: 600;
   transition: 0.3s;
+  text-decoration: none;
 }
 
 .add-book-btn:hover {
   background: #4338ca;
+  transform: translateY(-2px);
 }
+
+/* Status Filter Chips */
+
+.status-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.status-filters button {
+  border: none;
+  padding: 10px 16px;
+  border-radius: 30px;
+  background: #f3f4f6;
+  color: #374151;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+
+.status-filters button:hover {
+  transform: translateY(-2px);
+}
+
+.status-filters button.active {
+  background: #4f46e5;
+  color: white;
+  box-shadow:
+    0 4px 12px
+    rgba(79, 70, 229, 0.25);
+}
+
+/* Filters */
 
 .filters {
   display: flex;
@@ -42,36 +82,50 @@
 .filters select {
   padding: 12px;
   border: 1px solid #ddd;
-  border-radius: 8px;
+  border-radius: 10px;
   min-width: 220px;
   outline: none;
+  background: white;
+  transition: 0.3s;
 }
 
 .filters input:focus,
 .filters select:focus {
   border-color: #4f46e5;
+  box-shadow:
+    0 0 0 3px
+    rgba(79, 70, 229, 0.15);
 }
+
+/* Books Grid */
 
 .books-grid {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fill,
-    minmax(260px, 1fr)
-  );
+  grid-template-columns:
+    repeat(
+      auto-fill,
+      minmax(260px, 1fr)
+    );
   gap: 20px;
 }
+
+/* Empty State */
 
 .empty-state {
   background: white;
   padding: 60px 30px;
   text-align: center;
-  border-radius: 12px;
+  border-radius: 16px;
   margin-top: 20px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+
+  box-shadow:
+    0 4px 20px
+    rgba(0, 0, 0, 0.08);
 }
 
 .empty-state h2 {
   margin-bottom: 10px;
+  color: #1f2937;
 }
 
 .empty-state p {
@@ -84,14 +138,19 @@
   background: #4f46e5;
   color: white;
   padding: 12px 20px;
-  border-radius: 8px;
+  border-radius: 10px;
+  text-decoration: none;
+  transition: 0.3s;
 }
 
 .empty-btn:hover {
   background: #4338ca;
 }
 
+/* Mobile */
+
 @media (max-width: 768px) {
+
   .books-page {
     padding: 20px;
   }
@@ -106,6 +165,11 @@
     text-align: center;
   }
 
+  .status-filters {
+    overflow-x: auto;
+    padding-bottom: 5px;
+  }
+
   .filters {
     flex-direction: column;
   }
@@ -113,5 +177,7 @@
   .filters input,
   .filters select {
     width: 100%;
+    min-width: 100%;
   }
+
 }

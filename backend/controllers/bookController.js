@@ -1,4 +1,12 @@
 const Book = require("../models/Book");
+const {
+  checkAchievements,
+} = require("./achievementController");
+const {
+  updateStreak,
+} = require(
+  "./streakController"
+);
 
 // Create Book
 const createBook = async (req, res) => {
@@ -16,6 +24,8 @@ const createBook = async (req, res) => {
       rating: req.body.rating || 0,
       notes: req.body.notes || [],
       userId: req.user._id,
+      isFavorite:
+  req.body.isFavorite || false,
     });
 
     res.status(201).json(book);
@@ -115,11 +125,20 @@ const updateBook = async (req, res) => {
     book.notes =
       req.body.notes ??
       book.notes;
-
+book.isFavorite =
+  req.body.isFavorite ??
+  book.isFavorite;
     const updatedBook =
-      await book.save();
+  await book.save();
 
-    res.json(updatedBook);
+await checkAchievements(
+  req.user._id
+);
+await updateStreak(
+  req.user._id
+);
+
+res.json(updatedBook);
   } catch (error) {
     res.status(500).json({
       message: error.message,

@@ -62,6 +62,38 @@ app.use(
   require(  "./routes/goalRoutes")
 );
 
+app.use(
+  "/api/stats",
+  require(
+    "./routes/statsRoutes"
+  )
+);
+
+app.use(
+  "/api/achievements",
+  require(
+    "./routes/achievementRoutes"
+  )
+);
+app.use(
+  "/api/streak",
+  require(
+    "./routes/streakRoutes"
+  )
+);
+app.use(
+  "/api/profile",
+  require(
+    "./routes/profileRoutes"
+  )
+);
+app.use(
+  "/api/profile-upload",
+  require(
+    "./routes/profileUploadRoutes"
+  )
+);
+
 /* 404 Handler */
 app.use((req, res) => {
   res.status(404).json({

@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const API_URL = "http://localhost:5000/api/books";
+const API_URL = `${import.meta.env.VITE_API_URL}/books`;
 
 const getConfig = (token) => ({
   headers: {
@@ -81,7 +81,7 @@ export const uploadBookImage =
 
     const response =
       await axios.post(
-        "http://localhost:5000/api/upload",
+        `${import.meta.env.VITE_API_URL}/upload`,
         formData,
         {
           headers: {

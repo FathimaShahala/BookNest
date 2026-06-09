@@ -1,7 +1,8 @@
 import axios from "axios";
 
 const API_URL =
-  "http://localhost:5000/api/streak";
+`${import.meta.env.VITE_API_URL}/streak`;
+
 
 const config = (
   token

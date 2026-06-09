@@ -1,6 +1,8 @@
 import axios from "axios";
 
 const API_URL =
+`${import.meta.env.VITE_API_URL}/reviews`;
+//
   "http://localhost:5000/api/reviews";
 
 const getConfig = (token) => ({
@@ -15,7 +17,7 @@ export const createReview = async (
   token
 ) => {
   const response = await axios.post(
-    "http://localhost:5000/api/reviews",
+    API_URL,
     reviewData,
     {
       headers: {

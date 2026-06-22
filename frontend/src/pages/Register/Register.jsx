@@ -11,10 +11,6 @@ import {
   registerUser
 } from "../../services/authService";
 
-import {
-  useAuth
-} from "../../context/AuthContext";
-
 import toast from "react-hot-toast";
 
 import "./Register.css";
@@ -23,9 +19,6 @@ function Register() {
 
   const navigate =
     useNavigate();
-
-  const { setUser } =
-    useAuth();
 
   const [
     formData,
@@ -44,6 +37,7 @@ function Register() {
         [e.target.name]:
           e.target.value,
       });
+
     };
 
   const handleSubmit =
@@ -53,32 +47,46 @@ function Register() {
 
       try {
 
-        const data =
-          await registerUser(
-            formData
-          );
-
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data)
+        await registerUser(
+          formData
         );
-
-        setUser(data);
 
         toast.success(
-          "Account Created Successfully!"
+          "🎉 Registration successful! Please log in to continue.",
+          {
+            duration: 3000,
+          }
         );
 
-        navigate(
-          "/dashboard"
-        );
+        navigate("/login");
 
       } catch (error) {
 
-        toast.error(
-          "Registration Failed"
-        );
+        const message =
+          error.response?.data?.message;
+
+        if (
+          message ===
+          "User already exists"
+        ) {
+
+          toast.error(
+            "⚠️ An account with this email already exists."
+          );
+
+        } else {
+
+          toast.error(
+            message ||
+            "❌ Registration failed. Please try again."
+          );
+
+        }
+
+        console.log(error);
+
       }
+
     };
 
   return (
@@ -100,21 +108,15 @@ function Register() {
 
         <form
           className="register-form"
-          onSubmit={
-            handleSubmit
-          }
+          onSubmit={handleSubmit}
         >
 
           <input
             type="text"
             name="name"
             placeholder="Full Name"
-            value={
-              formData.name
-            }
-            onChange={
-              handleChange
-            }
+            value={formData.name}
+            onChange={handleChange}
             required
           />
 
@@ -122,12 +124,8 @@ function Register() {
             type="email"
             name="email"
             placeholder="Email Address"
-            value={
-              formData.email
-            }
-            onChange={
-              handleChange
-            }
+            value={formData.email}
+            onChange={handleChange}
             required
           />
 
@@ -135,12 +133,8 @@ function Register() {
             type="password"
             name="password"
             placeholder="Password"
-            value={
-              formData.password
-            }
-            onChange={
-              handleChange
-            }
+            value={formData.password}
+            onChange={handleChange}
             required
           />
 
@@ -156,9 +150,7 @@ function Register() {
 
           Already have an account?
 
-          <Link
-            to="/login"
-          >
+          <Link to="/login">
             Login
           </Link>
 

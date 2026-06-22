@@ -81,7 +81,8 @@ function Dashboard() {
     <DashboardLayout>
 
       <h1>
-        Welcome Back 👋
+        👋 Welcome {user.name}! 
+      
       </h1>
 
       <GoalProgress />

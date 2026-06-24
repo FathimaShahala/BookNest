@@ -1,5 +1,6 @@
-import Sidebar
-from "../components/Sidebar/Sidebar";
+import { useState } from "react";
+
+import Sidebar from "../components/Sidebar/Sidebar";
 
 import {
   useTheme,
@@ -14,12 +15,53 @@ function DashboardLayout({
   const { theme } =
     useTheme();
 
+  const [
+    sidebarOpen,
+    setSidebarOpen,
+  ] = useState(false);
+
   return (
+
     <div
       className={`layout ${theme}`}
     >
 
-      <Sidebar />
+      {/* Mobile Header */}
+
+      <header className="mobile-header">
+
+        <button
+          className="menu-btn"
+          onClick={() =>
+            setSidebarOpen(true)
+          }
+        >
+          ☰
+        </button>
+
+        <h2>
+          📚 BookNest
+        </h2>
+
+      </header>
+
+      {/* Overlay */}
+
+      {sidebarOpen && (
+
+        <div
+          className="overlay"
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+        ></div>
+
+      )}
+
+      <Sidebar
+        sidebarOpen={sidebarOpen}
+        setSidebarOpen={setSidebarOpen}
+      />
 
       <main
         className="main-content"
@@ -28,7 +70,9 @@ function DashboardLayout({
       </main>
 
     </div>
+
   );
+
 }
 
 export default DashboardLayout;

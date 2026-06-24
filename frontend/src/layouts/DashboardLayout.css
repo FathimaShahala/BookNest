@@ -1,54 +1,235 @@
+/* ==========================
+   Layout
+========================== */
+
 .layout {
+
   display: flex;
+
   min-height: 100vh;
+
+  background: #f5f7fb;
+
 }
+
+/* ==========================
+   Main Content
+========================== */
 
 .main-content {
+
   flex: 1;
 
-  /* margin-left: 260px; */
+  margin-left: 260px;
 
-  height: 100vh;
+  min-height: 100vh;
+
   overflow-y: auto;
 
-  padding: 25px;
+  padding: 30px;
+
+  transition: .3s;
+
 }
 
+/* ==========================
+   Mobile Header
+========================== */
 
-/* Light Theme */
+.mobile-header {
 
-.layout.light {
-  background: #f5f7fb;
-  color: #222;
+  display: none;
+
 }
 
-.layout.light .main-content {
-  background: #f5f7fb;
-  color: #222;
+/* ==========================
+   Hamburger
+========================== */
+
+.menu-btn {
+
+  background: none;
+
+  border: none;
+
+  font-size: 30px;
+
+  cursor: pointer;
+
+  color: #4f46e5;
+
 }
 
-/* Dark Theme */
+/* ==========================
+   Overlay
+========================== */
 
-.layout.dark {
-  background: #121212;
-  color: #ffffff;
+.overlay{
+
+  display:none;
+
 }
 
-.layout.dark .main-content {
-  background: #121212;
-  color: #ffffff;
+/* ==========================
+   Light Theme
+========================== */
+
+.layout.light{
+
+  background:#f5f7fb;
+
 }
 
-/* Responsive */
+.layout.light .main-content{
 
-@media (max-width: 768px) {
+  background:#f5f7fb;
 
-  .layout {
-    flex-direction: column;
-  }
+  color:#222;
 
-  .main-content {
-    padding: 15px;
-  }
+}
+
+/* ==========================
+   Dark Theme
+========================== */
+
+.layout.dark{
+
+  background:#121212;
+
+}
+
+.layout.dark .main-content{
+
+  background:#121212;
+
+  color:white;
+
+}
+
+.layout.dark .mobile-header{
+
+  background:#1f1f1f;
+
+  color:white;
+
+}
+
+.layout.dark .menu-btn{
+
+  color:white;
+
+}
+
+/* ==========================
+   Tablet
+========================== */
+
+@media(max-width:992px){
+
+.main-content{
+
+margin-left:230px;
+
+padding:25px;
+
+}
+
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media(max-width:768px){
+
+.layout{
+
+display:block;
+
+}
+
+.mobile-header{
+
+display:flex;
+
+justify-content:space-between;
+
+align-items:center;
+
+padding:15px 20px;
+
+background:white;
+
+border-bottom:1px solid #e5e7eb;
+
+position:sticky;
+
+top:0;
+
+z-index:998;
+
+}
+
+.mobile-header h2{
+
+font-size:22px;
+
+color:#4f46e5;
+
+}
+
+.main-content{
+
+margin-left:0;
+
+padding:20px;
+
+}
+
+.overlay{
+
+display:block;
+
+position:fixed;
+
+left:0;
+
+top:0;
+
+width:100%;
+
+height:100%;
+
+background:rgba(0,0,0,.5);
+
+z-index:998;
+
+}
+
+}
+
+/* ==========================
+   Small Mobile
+========================== */
+
+@media(max-width:480px){
+
+.mobile-header{
+
+padding:15px;
+
+}
+
+.mobile-header h2{
+
+font-size:20px;
+
+}
+
+.main-content{
+
+padding:15px;
+
+}
 
 }

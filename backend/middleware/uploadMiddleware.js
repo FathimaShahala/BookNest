@@ -1,30 +1,22 @@
 const multer = require("multer");
-const fs = require("fs");
-const path = require("path");
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
+const cloudinary = require("../config/cloudinary");
 
-const uploadDir = path.join(
-  __dirname,
-  "../uploads/book-covers"
-);
+const storage = new CloudinaryStorage({
+  cloudinary,
+  params: {
+    folder: "BookNest",
 
-if (!fs.existsSync(uploadDir)) {
-  fs.mkdirSync(uploadDir, {
-    recursive: true,
-  });
-}
+    allowed_formats: [
+      "jpg",
+      "jpeg",
+      "png",
+      "webp",
+    ],
 
-const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, uploadDir);
-  },
-
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      Date.now() +
-        "-" +
-        file.originalname
-    );
+    public_id: (req, file) => {
+      return Date.now() + "-" + file.originalname;
+    },
   },
 });
 

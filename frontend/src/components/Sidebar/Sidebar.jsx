@@ -1,12 +1,84 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+
+import { useAuth } from "../../context/AuthContext";
+
+import toast from "react-hot-toast";
+
 import "./Sidebar.css";
 
-function Sidebar() {
-  return (
-    <aside className="sidebar">
+function Sidebar({
 
-      <div className="sidebar-logo">
-        <h2>📚 BookNest</h2>
+  sidebarOpen,
+
+  setSidebarOpen,
+
+}) {
+
+  const { logout } =
+    useAuth();
+
+  const navigate =
+    useNavigate();
+
+  const closeSidebar =
+    () => {
+
+      if (
+        window.innerWidth <= 768
+      ) {
+        setSidebarOpen(false);
+      }
+
+    };
+
+  const handleLogout =
+    () => {
+
+      const confirmLogout =
+        window.confirm(
+          "Are you sure you want to logout?"
+        );
+
+      if (!confirmLogout)
+        return;
+
+      logout();
+
+      toast.success(
+        "Logged out successfully"
+      );
+
+      closeSidebar();
+
+      navigate("/");
+
+    };
+
+  return (
+
+    <aside
+      className={`sidebar ${
+        sidebarOpen
+          ? "open"
+          : ""
+      }`}
+    >
+
+      <div className="sidebar-top">
+
+        <h2>
+          📚 BookNest
+        </h2>
+
+        <button
+          className="close-btn"
+          onClick={() =>
+            setSidebarOpen(false)
+          }
+        >
+          ✕
+        </button>
+
       </div>
 
       <nav className="sidebar-nav">
@@ -14,6 +86,7 @@ function Sidebar() {
         <NavLink
           to="/dashboard"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           🏠 Dashboard
         </NavLink>
@@ -21,6 +94,7 @@ function Sidebar() {
         <NavLink
           to="/books"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           📖 My Books
         </NavLink>
@@ -28,6 +102,7 @@ function Sidebar() {
         <NavLink
           to="/add-book"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           ➕ Add Book
         </NavLink>
@@ -35,6 +110,7 @@ function Sidebar() {
         <NavLink
           to="/favorites"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           ⭐ Favorites
         </NavLink>
@@ -42,13 +118,15 @@ function Sidebar() {
         <NavLink
           to="/wishlist"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           📚 Wishlist
         </NavLink>
 
-          <NavLink
+        <NavLink
           to="/goals"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           🎯 Reading Goals
         </NavLink>
@@ -56,20 +134,23 @@ function Sidebar() {
         <NavLink
           to="/statistics"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           📊 Statistics
         </NavLink>
 
         <NavLink
-  to="/achievements"
-  className="sidebar-link"
->
-  🏆 Achievements
-</NavLink>
+          to="/achievements"
+          className="sidebar-link"
+          onClick={closeSidebar}
+        >
+          🏆 Achievements
+        </NavLink>
 
         <NavLink
           to="/profile"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           👤 Profile
         </NavLink>
@@ -77,21 +158,24 @@ function Sidebar() {
         <NavLink
           to="/settings"
           className="sidebar-link"
+          onClick={closeSidebar}
         >
           ⚙️ Settings
         </NavLink>
 
-        <NavLink
-          to="/logout"
-          className="sidebar-link logout"
+        <button
+          className="sidebar-link logout-btn"
+          onClick={handleLogout}
         >
           🚪 Logout
-        </NavLink>
+        </button>
 
       </nav>
 
     </aside>
+
   );
+
 }
 
 export default Sidebar;

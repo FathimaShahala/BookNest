@@ -1,7 +1,9 @@
+
 import {
   BrowserRouter,
   Routes,
   Route,
+  useLocation,
 } from "react-router-dom";
 
 import Navbar from "./components/Navbar/Navbar";
@@ -10,6 +12,7 @@ import ProtectedRoute from "./components/ProtectedRoute/ProtectedRoute";
 import Landing from "./pages/Landing/Landing";
 import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
+
 import Dashboard from "./pages/Dashboard/Dashboard";
 
 import MyBooks from "./pages/MyBooks/MyBooks";
@@ -18,42 +21,90 @@ import EditBook from "./pages/EditBook/EditBook";
 import BookDetails from "./pages/BookDetails/BookDetails";
 import Reviews from "./pages/Reviews/Reviews";
 
-// Future Phase 6 Pages
 import Favorites from "./pages/Favorites/Favorites";
 import Wishlist from "./pages/Wishlist/Wishlist";
 import Goals from "./pages/Goals/Goals";
 import Statistics from "./pages/Statistics/Statistics";
 import Achievements from "./pages/Achievements/Achievements";
+
 import Profile from "./pages/Profile/Profile";
 import EditProfile from "./pages/EditProfile/EditProfile";
 
-import Settings
-from "./pages/Settings/Settings";
-  
-function App() {
+import Settings from "./pages/Settings/Settings";
+
+function Layout() {
+
+  const location =
+    useLocation();
+
+  const hideNavbar = [
+
+    "/dashboard",
+
+    "/books",
+
+    "/add-book",
+
+    "/favorites",
+
+    "/wishlist",
+
+    "/goals",
+
+    "/statistics",
+
+    "/achievements",
+
+    "/profile",
+
+    "/edit-profile",
+
+    "/settings",
+
+  ].some(
+
+    (path) =>
+
+      location.pathname.startsWith(
+        path
+      )
+
+  );
+
   return (
-    <BrowserRouter>
-      <Navbar />
+
+    <>
+
+      {!hideNavbar &&
+        <Navbar />}
 
       <Routes>
 
-        {/* Public Routes */}
+        {/* ---------- Public Routes ---------- */}
+
         <Route
           path="/"
-          element={<Landing />}
+          element={
+            <Landing />
+          }
         />
 
         <Route
           path="/login"
-          element={<Login />}
+          element={
+            <Login />
+          }
         />
 
         <Route
           path="/register"
-          element={<Register />}
+          element={
+            <Register />
+          }
         />
 
-        {/* Protected Routes */}
+        {/* ---------- Dashboard ---------- */}
+
         <Route
           path="/dashboard"
           element={
@@ -62,6 +113,8 @@ function App() {
             </ProtectedRoute>
           }
         />
+
+        {/* ---------- Books ---------- */}
 
         <Route
           path="/books"
@@ -98,16 +151,17 @@ function App() {
             </ProtectedRoute>
           }
         />
-         <Route
+
+        <Route
           path="/reviews/:bookId"
           element={
             <ProtectedRoute>
               <Reviews />
             </ProtectedRoute>
           }
-        /> 
+        />
 
-        
+        {/* ---------- Favorites ---------- */}
 
         <Route
           path="/favorites"
@@ -117,7 +171,9 @@ function App() {
             </ProtectedRoute>
           }
         />
- 
+
+        {/* ---------- Wishlist ---------- */}
+
         <Route
           path="/wishlist"
           element={
@@ -125,75 +181,92 @@ function App() {
               <Wishlist />
             </ProtectedRoute>
           }
-        /> 
+        />
+
+        {/* ---------- Goals ---------- */}
+
         <Route
-  path="/goals"
-  element={
-    <ProtectedRoute>
-      <Goals />
-    </ProtectedRoute>
-  }
-/>
-
-
-
-         <Route
-          path="/reviews/:bookId"
+          path="/goals"
           element={
             <ProtectedRoute>
-              <Reviews />
+              <Goals />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ---------- Statistics ---------- */}
+
+        <Route
+          path="/statistics"
+          element={
+            <ProtectedRoute>
+              <Statistics />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ---------- Achievements ---------- */}
+
+        <Route
+          path="/achievements"
+          element={
+            <ProtectedRoute>
+              <Achievements />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* ---------- Profile ---------- */}
+
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
             </ProtectedRoute>
           }
         />
 
         <Route
-  path="/statistics"
-  element={
-    <ProtectedRoute>
-      <Statistics />
-    </ProtectedRoute>
-  }
-/>
+          path="/edit-profile"
+          element={
+            <ProtectedRoute>
+              <EditProfile />
+            </ProtectedRoute>
+          }
+        />
 
-<Route
-  path="/achievements"
-  element={
-    <ProtectedRoute>
-      <Achievements />
-    </ProtectedRoute>
-  }
-/>
-<Route
-  path="/profile"
-  element={
-    <ProtectedRoute>
-      <Profile />
-    </ProtectedRoute>
-  }
-/>
+        {/* ---------- Settings ---------- */}
 
-<Route
-  path="/edit-profile"
-  element={
-    <ProtectedRoute>
-      <EditProfile />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/settings"
-  element={
-    <ProtectedRoute>
-      <Settings />
-    </ProtectedRoute>
-  }
-/>
-        
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
 
       </Routes>
-    </BrowserRouter>
+
+    </>
+
   );
+
+}
+
+function App() {
+
+  return (
+
+    <BrowserRouter>
+
+      <Layout />
+
+    </BrowserRouter>
+
+  );
+
 }
 
 export default App;

@@ -81,7 +81,7 @@ function Dashboard() {
     <DashboardLayout>
 
       <h1>
-        👋 Welcome {user.name}! 
+         `Welcome {user.name}! 👋
       
       </h1>
 

@@ -51,7 +51,7 @@ function AddBook() {
           await uploadBookImage(
             file
           );
-
+console.log("UPLOAD RESPONSE:", data);
         setFormData((prev) => ({
           ...prev,
           coverImage:

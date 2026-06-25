@@ -48,9 +48,9 @@ function Sidebar({
         "Logged out successfully"
       );
 
-      closeSidebar();
+      // closeSidebar();
 
-      navigate("/");
+      navigate("/login");
 
     };
 

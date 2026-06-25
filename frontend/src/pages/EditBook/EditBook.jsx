@@ -51,23 +51,14 @@ function EditBook() {
 
       setFormData({
         title: data.title || "",
-        author:
-          data.author || "",
-        genre:
-          data.genre || "",
-        description:
-          data.description ||
-          "",
-        coverImage:
-          data.coverImage ||
-          "",
-        totalPages:
-          data.totalPages || "",
-        currentPage:
-          data.currentPage || "",
-        readingStatus:
-          data.readingStatus ||
-          "Want To Read",
+        author: data.author || "",
+        genre: data.genre || "",
+        description: data.description || "",
+        coverImage: data.coverImage || "",
+        totalPages: data.totalPages || "",
+        currentPage: data.currentPage || "",
+        readingStatus: data.readingStatus || "Want To Read",
+        rating: data.rating || 0,
       });
     } catch (error) {
       console.error(error);
@@ -297,6 +288,17 @@ function EditBook() {
               Completed
             </option>
           </select>
+          <div className="rating-display">
+  ⭐ Rating: {formData.rating}/5
+  <input
+  type="number"
+  name="rating"
+  min="0"
+  max="5"
+  value={formData.rating}
+  onChange={handleChange}
+/>
+</div>
 
           <button
             type="submit"

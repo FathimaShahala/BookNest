@@ -314,7 +314,7 @@ function BookDetails() {
                 Rating
               </strong>
               <br />
-              {book.rating || 0}/5
+              ⭐{book.rating || 0}/5
             </div>
 
           </div>

@@ -37,37 +37,45 @@ function AddBook() {
     });
   };
 
-  const handleImageUpload =
-    async (e) => {
-      const file =
-        e.target.files[0];
+ const handleImageUpload = async (e) => {
+  console.log("IMAGE SELECTED");
 
-      if (!file) return;
+  const file = e.target.files[0];
 
-      try {
-        setUploading(true);
+  if (!file) return;
 
-        const data =
-          await uploadBookImage(
-            file
-          );
-console.log("UPLOAD RESPONSE:", data);
-        setFormData((prev) => ({
-          ...prev,
-          coverImage:
-            data.imageUrl,
-        }));
-      } catch (error) {
-        console.error(error);
+  try {
+    setUploading(true);
 
-        alert(
-          "Image upload failed"
-        );
-      } finally {
-        setUploading(false);
-      }
-    };
+    console.log("STARTING UPLOAD");
 
+    const data =
+      await uploadBookImage(file);
+
+    console.log(
+      "UPLOAD RESPONSE:",
+      data
+    );
+
+    setFormData((prev) => ({
+      ...prev,
+      coverImage:
+        data.imageUrl,
+    }));
+
+  } catch (error) {
+
+    console.log(
+      "UPLOAD ERROR:",
+      error.response?.data
+    );
+
+    console.error(error);
+
+  } finally {
+    setUploading(false);
+  }
+};
   const handleSubmit =
     async (e) => {
       e.preventDefault();

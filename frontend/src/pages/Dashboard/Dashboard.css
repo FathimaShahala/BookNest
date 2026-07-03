@@ -1,96 +1,204 @@
+/* ==========================
+   Dashboard Page
+========================== */
+
 .dashboard-page {
   width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
+/* ==========================
+   Header
+========================== */
+
 .dashboard-header {
-  margin-bottom: 25px;
+  margin-bottom: 30px;
 }
 
 .dashboard-header h1 {
-  font-size: 32px;
+  font-size: 2rem;
   font-weight: 700;
   color: #222;
+  margin-bottom: 8px;
+  line-height: 1.3;
 }
 
 .dashboard-header p {
   color: #666;
-  margin-top: 6px;
+  font-size: 1rem;
+  line-height: 1.6;
 }
 
-/* Top widgets */
+/* ==========================
+   Top Widgets
+========================== */
 
 .dashboard-top {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: repeat(2, 1fr);
   gap: 20px;
   margin-bottom: 25px;
 }
 
-/* Stats section */
+/* ==========================
+   Stats Grid
+========================== */
 
 .stats-grid {
   display: grid;
-  grid-template-columns:
-    repeat(
-      auto-fit,
-      minmax(220px, 1fr)
-    );
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 20px;
   margin-top: 25px;
 }
 
-/* Cards */
+/* ==========================
+   Dashboard Card
+========================== */
 
 .dashboard-card {
   background: #fff;
   border-radius: 16px;
   padding: 20px;
-  box-shadow:
-    0 4px 12px
-    rgba(0, 0, 0, 0.08);
+  box-shadow: 0 6px 18px rgba(0,0,0,.08);
+  transition: transform .3s ease,
+              box-shadow .3s ease;
 }
 
-/* Achievement section */
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 10px 24px rgba(0,0,0,.12);
+}
+
+/* ==========================
+   Achievement
+========================== */
 
 .latest-achievement {
   margin-top: 25px;
 }
 
-/* Loading */
+/* ==========================
+   Loading
+========================== */
 
 .dashboard-loading {
   display: flex;
   justify-content: center;
   align-items: center;
-  min-height: 300px;
+  min-height: 350px;
   font-size: 18px;
   font-weight: 600;
 }
 
-/* Responsive */
+/* ==========================
+   Large Desktop
+========================== */
 
-@media (max-width: 992px) {
-  .dashboard-top {
-    grid-template-columns: 1fr;
+@media (min-width:1400px){
+
+  .stats-grid{
+    grid-template-columns:repeat(4,1fr);
   }
+
 }
 
-@media (max-width: 768px) {
-  .stats-grid {
-    grid-template-columns: 1fr;
+/* ==========================
+   Laptop
+========================== */
+
+@media (max-width:1200px){
+
+  .stats-grid{
+    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   }
 
-  .dashboard-header h1 {
-    font-size: 26px;
-  }
 }
 
-@media (max-width: 480px) {
-  .dashboard-header h1 {
-    font-size: 22px;
+/* ==========================
+   Tablet
+========================== */
+
+@media (max-width:992px){
+
+  .dashboard-top{
+    grid-template-columns:1fr;
   }
 
-  .stats-grid {
-    gap: 15px;
+  .dashboard-header h1{
+    font-size:1.8rem;
   }
+
+}
+
+/* ==========================
+   Mobile
+========================== */
+
+@media (max-width:768px){
+
+  .dashboard-header{
+    margin-bottom:20px;
+  }
+
+  .dashboard-header h1{
+    font-size:1.6rem;
+  }
+
+  .dashboard-header p{
+    font-size:.95rem;
+  }
+
+  .stats-grid{
+    grid-template-columns:1fr;
+    gap:18px;
+  }
+
+  .dashboard-card{
+    padding:18px;
+  }
+
+}
+
+/* ==========================
+   Small Mobile
+========================== */
+
+@media (max-width:480px){
+
+  .dashboard-header h1{
+    font-size:1.4rem;
+  }
+
+  .dashboard-header p{
+    font-size:.9rem;
+  }
+
+  .dashboard-card{
+    padding:16px;
+    border-radius:14px;
+  }
+
+  .stats-grid{
+    gap:15px;
+  }
+
+}
+
+/* ==========================
+   Dark Theme
+========================== */
+
+.layout.dark .dashboard-header h1{
+  color:#ffffff;
+}
+
+.layout.dark .dashboard-header p{
+  color:#bdbdbd;
+}
+
+.layout.dark .dashboard-card{
+  background:#1f1f1f;
+  color:#fff;
+  box-shadow:none;
 }

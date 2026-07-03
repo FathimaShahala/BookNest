@@ -72,18 +72,26 @@ function Dashboard() {
   if (!stats || !streak) {
     return (
       <DashboardLayout>
-        Loading...
-      </DashboardLayout>
+<div className="dashboard-loading">
+  Loading Dashboard...
+</div>      </DashboardLayout>
     );
   }
 
   return (
     <DashboardLayout>
 
-      <h1>
-         `Welcome {user.name}! 👋
-      
-      </h1>
+    <div className="dashboard-header">
+
+  <h1>
+    Welcome, {user.name}! 👋
+  </h1>
+
+  <p>
+    Track your reading journey and achieve your goals.
+  </p>
+
+</div>
 
       <GoalProgress />
 

@@ -7,11 +7,9 @@ import {
   Link,
 } from "react-router-dom";
 
-import DashboardLayout
-from "../../layouts/DashboardLayout";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
-import { useAuth }
-from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
 
 import {
   getProfile,
@@ -21,16 +19,19 @@ import "./Profile.css";
 
 function Profile() {
 
-  const { user } =
-    useAuth();
+  const { user } = useAuth();
 
-  const [profile,
-    setProfile] =
+  const [profile, setProfile] =
     useState(null);
 
+  const [loading, setLoading] =
+    useState(true);
+
   useEffect(() => {
-    loadProfile();
-  }, []);
+    if (user) {
+      loadProfile();
+    }
+  }, [user]);
 
   const loadProfile =
     async () => {
@@ -44,14 +45,22 @@ function Profile() {
         setProfile(data);
 
       } catch (error) {
+
         console.log(error);
+
+      } finally {
+
+        setLoading(false);
+
       }
     };
 
-  if (!profile) {
+  if (loading) {
     return (
       <DashboardLayout>
-        Loading...
+        <div className="profile-loading">
+          Loading Profile...
+        </div>
       </DashboardLayout>
     );
   }
@@ -66,39 +75,87 @@ function Profile() {
           <img
             src={
               profile.profileImage ||
-              "https://via.placeholder.com/150"
+              "https://via.placeholder.com/160"
             }
             alt="Profile"
             className="profile-image"
           />
 
-          <h2>
-            {user.name}
-          </h2>
+          <h2>{user.name}</h2>
 
-          <p>
+          <p className="profile-email">
             {user.email}
           </p>
 
           <div className="profile-info">
 
-            <h3>
-              Bio
-            </h3>
+            <div className="info-box">
 
-            <p>
-              {profile.bio ||
-                "No bio added"}
-            </p>
+              <h3>Bio</h3>
 
-            <h3>
-              Favorite Genre
-            </h3>
+              <p>
+                {profile.bio ||
+                  "No bio added"}
+              </p>
 
-            <p>
-              {profile.favoriteGenre ||
-                "Not set"}
-            </p>
+            </div>
+
+            <div className="info-box">
+
+              <h3>
+                Favorite Genre
+              </h3>
+
+              <p>
+                {profile.favoriteGenre ||
+                  "Not Set"}
+              </p>
+
+            </div>
+
+          </div>
+
+          <div className="profile-stats">
+
+            <div className="stat">
+
+              <h3>
+                {profile.stats?.totalBooks || 0}
+              </h3>
+
+              <p>Total Books</p>
+
+            </div>
+
+            <div className="stat">
+
+              <h3>
+                {profile.stats?.completedBooks || 0}
+              </h3>
+
+              <p>Completed</p>
+
+            </div>
+
+            <div className="stat">
+
+              <h3>
+                {profile.stats?.favorites || 0}
+              </h3>
+
+              <p>Favorites</p>
+
+            </div>
+
+            <div className="stat">
+
+              <h3>
+                {profile.stats?.achievements || 0}
+              </h3>
+
+              <p>Achievements</p>
+
+            </div>
 
           </div>
 

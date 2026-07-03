@@ -1,77 +1,231 @@
 .wishlist-page {
-  padding: 20px;
+  max-width: 1200px;
+  margin: auto;
+  padding: 35px 20px;
 }
 
-.wishlist-page h1 {
-  margin-bottom: 25px;
+/* Header */
+
+.wishlist-header {
+  text-align: center;
+  margin-bottom: 35px;
 }
+
+.wishlist-header h1 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  font-size: 2.2rem;
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.wishlist-header p {
+  color: #6b7280;
+  font-size: 1rem;
+}
+
+/* Loading */
+
+.wishlist-loading {
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #4f46e5;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Empty */
+
+.wishlist-empty {
+  background: white;
+  border-radius: 18px;
+  padding: 60px 30px;
+  text-align: center;
+  box-shadow: 0 10px 25px rgba(0,0,0,.08);
+}
+
+.wishlist-empty h2 {
+  color: #1f2937;
+  margin-bottom: 10px;
+}
+
+.wishlist-empty p {
+  color: #6b7280;
+}
+
+/* Grid */
 
 .wishlist-grid {
   display: grid;
-
-  grid-template-columns:
-    repeat(
-      auto-fill,
-      minmax(220px, 1fr)
-    );
-
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(260px,1fr));
+  gap: 25px;
 }
+
+/* Card */
 
 .wishlist-card {
   background: white;
+  border-radius: 18px;
+  overflow: hidden;
   text-decoration: none;
   color: inherit;
-
-  border-radius: 12px;
-
-  overflow: hidden;
-
-  box-shadow:
-    0 2px 10px
-    rgba(
-      0,
-      0,
-      0,
-      0.08
-    );
-
-  transition: 0.3s;
+  box-shadow: 0 8px 20px rgba(0,0,0,.08);
+  transition: .3s;
+  display: flex;
+  flex-direction: column;
 }
 
 .wishlist-card:hover {
-  transform:
-    translateY(-5px);
+  transform: translateY(-6px);
+  box-shadow: 0 14px 30px rgba(79,70,229,.18);
 }
 
 .wishlist-card img {
   width: 100%;
-  height: 280px;
-
+  height: 320px;
   object-fit: cover;
 }
 
-.wishlist-card h3 {
-  padding: 10px;
+/* Info */
+
+.wishlist-info {
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-.wishlist-card p {
-  padding: 0 10px;
+.wishlist-info h3 {
+  color: #1f2937;
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+}
+
+.wishlist-info p {
   color: #6b7280;
+  margin-bottom: 15px;
 }
 
-.wishlist-card span {
-  display: block;
-  padding: 10px;
+/* Genre */
+
+.genre-badge {
+  display: inline-block;
+  align-self: flex-start;
+  padding: 6px 12px;
+  background: #eef2ff;
   color: #4f46e5;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 18px;
 }
 
-.wishlist-empty {
-  text-align: center;
+/* Footer */
 
-  background: white;
+.wishlist-footer {
+  margin-top: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  padding: 40px;
+.status {
+  padding: 6px 12px;
+  background: #f3f4f6;
+  color: #374151;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 600;
+}
 
-  border-radius: 12px;
+/* Remove Button */
+
+.remove-btn {
+  width: 42px;
+  height: 42px;
+  border: none;
+  border-radius: 50%;
+  background: #fee2e2;
+  color: #ef4444;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: .3s;
+}
+
+.remove-btn:hover {
+  background: #ef4444;
+  color: white;
+  transform: scale(1.08);
+}
+
+/* Tablet */
+
+@media (max-width:768px){
+
+  .wishlist-page{
+    padding:25px 15px;
+  }
+
+  .wishlist-header h1{
+    font-size:1.8rem;
+  }
+
+  .wishlist-grid{
+    grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+    gap:20px;
+  }
+
+  .wishlist-card img{
+    height:280px;
+  }
+
+}
+
+/* Mobile */
+
+@media (max-width:480px){
+
+  .wishlist-page{
+    padding:20px 12px;
+  }
+
+  .wishlist-header h1{
+    font-size:1.5rem;
+    flex-direction:column;
+  }
+
+  .wishlist-grid{
+    grid-template-columns:1fr;
+  }
+
+  .wishlist-card img{
+    height:300px;
+  }
+
+  .wishlist-info{
+    padding:15px;
+  }
+
+  .wishlist-footer{
+    flex-direction:column;
+    gap:12px;
+    align-items:stretch;
+  }
+
+  .status{
+    text-align:center;
+  }
+
+  .remove-btn{
+    width:100%;
+    border-radius:10px;
+    height:45px;
+  }
+
 }

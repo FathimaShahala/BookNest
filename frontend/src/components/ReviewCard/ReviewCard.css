@@ -1,28 +1,168 @@
 .review-card {
-  background: white;
+  background: #ffffff;
   padding: 20px;
-  border-radius: 15px;
+  border-radius: 16px;
   margin-bottom: 20px;
-  box-shadow:
-    0 2px 10px
-    rgba(0, 0, 0, 0.08);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+  transition: 0.3s ease;
+  border: 1px solid #f1f5f9;
 }
+
+.review-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+/* ===========================
+   Header
+=========================== */
+
+.review-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.review-header h3 {
+  margin: 0 0 6px;
+  color: #1f2937;
+  font-size: 1.2rem;
+}
+
+.review-header small {
+  color: #6b7280;
+  font-size: 0.9rem;
+  display: block;
+}
+
+/* ===========================
+   Star Rating
+=========================== */
 
 .review-stars {
+  display: flex;
+  gap: 3px;
+  flex-shrink: 0;
+}
+
+.review-stars span {
+  font-size: 24px;
+  transition: 0.25s;
+}
+
+.review-stars .filled {
   color: #fbbf24;
-  font-size: 22px;
 }
 
-.review-card h3 {
-  margin: 10px 0;
+.review-stars .empty {
+  color: #d1d5db;
 }
 
-.review-card button {
+/* ===========================
+   Review Text
+=========================== */
+
+.review-text {
+  color: #4b5563;
+  line-height: 1.7;
+  margin: 18px 0;
+  word-break: break-word;
+}
+
+/* ===========================
+   Footer
+=========================== */
+
+.review-footer {
+  display: flex;
+  justify-content: flex-end;
   margin-top: 15px;
+}
+
+.delete-review-btn {
+  background: #ef4444;
+  color: #fff;
   border: none;
-  background: crimson;
-  color: white;
-  padding: 8px 15px;
-  border-radius: 6px;
+  padding: 10px 18px;
+  border-radius: 8px;
   cursor: pointer;
+  font-weight: 600;
+  transition: 0.3s;
+}
+
+.delete-review-btn:hover {
+  background: #dc2626;
+  transform: translateY(-2px);
+}
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width: 768px) {
+
+  .review-card {
+    padding: 18px;
+  }
+
+  .review-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .review-header h3 {
+    font-size: 1.1rem;
+  }
+
+  .review-stars span {
+    font-size: 22px;
+  }
+
+  .review-footer {
+    justify-content: stretch;
+  }
+
+  .delete-review-btn {
+    width: 100%;
+    padding: 12px;
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width: 480px) {
+
+  .review-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .review-header h3 {
+    font-size: 1rem;
+  }
+
+  .review-header small {
+    font-size: 0.8rem;
+  }
+
+  .review-stars span {
+    font-size: 20px;
+  }
+
+  .review-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .delete-review-btn {
+    font-size: 14px;
+    padding: 10px;
+  }
+
 }

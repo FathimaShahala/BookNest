@@ -1,6 +1,58 @@
 .stats-card{
-  background:white;
+  background:#fff;
   padding:20px;
   border-radius:12px;
   box-shadow:0 2px 8px rgba(0,0,0,.1);
+  text-align:center;
+  transition:.3s;
+}
+
+.stats-card:hover{
+  transform:translateY(-3px);
+}
+
+.stats-card h4{
+  font-size:16px;
+  color:#6b7280;
+  margin-bottom:10px;
+  font-weight:600;
+}
+
+.stats-card h2{
+  font-size:32px;
+  color:#4f46e5;
+  margin:0;
+  font-weight:700;
+}
+
+/* Tablet */
+
+@media (max-width:768px){
+
+  .stats-card{
+    padding:18px;
+  }
+
+  .stats-card h2{
+    font-size:28px;
+  }
+
+}
+
+/* Small Mobile */
+
+@media (max-width:480px){
+
+  .stats-card{
+    padding:16px;
+  }
+
+  .stats-card h4{
+    font-size:15px;
+  }
+
+  .stats-card h2{
+    font-size:24px;
+  }
+
 }

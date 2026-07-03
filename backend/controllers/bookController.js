@@ -173,10 +173,31 @@ const deleteBook = async (req, res) => {
   }
 };
 
+// Get Favorite Books
+const getFavoriteBooks = async (req, res) => {
+  try {
+
+    const books = await Book.find({
+      userId: req.user._id,
+      isFavorite: true,
+    }).sort({
+      createdAt: -1,
+    });
+
+    res.json(books);
+
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
 module.exports = {
   createBook,
   getBooks,
   getBook,
   updateBook,
   deleteBook,
+  getFavoriteBooks,
 };

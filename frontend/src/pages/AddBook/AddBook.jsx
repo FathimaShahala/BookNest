@@ -38,7 +38,6 @@ function AddBook() {
   };
 
  const handleImageUpload = async (e) => {
-  console.log("IMAGE SELECTED");
 
   const file = e.target.files[0];
 
@@ -47,15 +46,10 @@ function AddBook() {
   try {
     setUploading(true);
 
-    console.log("STARTING UPLOAD");
 
     const data =
       await uploadBookImage(file);
 
-    console.log(
-      "UPLOAD RESPONSE:",
-      data
-    );
 
     setFormData((prev) => ({
       ...prev,
@@ -64,11 +58,6 @@ function AddBook() {
     }));
 
   } catch (error) {
-
-    console.log(
-      "UPLOAD ERROR:",
-      error.response?.data
-    );
 
     console.error(error);
 

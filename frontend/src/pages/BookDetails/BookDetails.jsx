@@ -1,19 +1,14 @@
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
-import { FaHeart,FaBookmark } from "react-icons/fa";
+import { FaBookmark } from "react-icons/fa";
 
+import DashboardLayout from "../../layouts/DashboardLayout";
 import { useAuth } from "../../context/AuthContext";
 
 import {
   getBookById,
   updateBook,
 } from "../../services/bookService";
-
-import {
-  addFavorite,
-  removeFavorite,
-  getFavorites,
-} from "../../services/favoriteService";
 
 import {
   addWishlist,
@@ -31,15 +26,12 @@ function BookDetails() {
   const { user } = useAuth();
 
   const [book, setBook] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [isFavorite, setIsFavorite] =
+  const [loading, setLoading] =useState(true);
+  const [isWishlist, setIsWishlist] =
     useState(false);
-    const [isWishlist, setIsWishlist] =
-  useState(false);
 
   useEffect(() => {
     loadBook();
-    checkFavorite();
     checkWishlist();
   }, []);
 
@@ -59,132 +51,105 @@ function BookDetails() {
     }
   };
 
-  const checkFavorite =
+  const handleFavorite =
     async () => {
       try {
-        const favorites =
-          await getFavorites(
-            user.token
-          );
-
-        const exists =
-          favorites.some(
-            (fav) =>
-              fav._id === id
-          );
-
-        setIsFavorite(exists);
-      } catch (error) {
-        console.error(error);
-      }
-    };
-
-  const handleFavorite =
-  async () => {
-    try {
-
-      const updatedBook =
-        {
+        const updatedBook = {
           ...book,
           isFavorite:
             !book.isFavorite,
         };
 
-      const data =
+        const data =
+          await updateBook(
+            id,
+            updatedBook,
+            user.token
+          );
+
+        setBook(data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  const checkWishlist =
+    async () => {
+      try {
+        const wishlist =
+          await getWishlist(
+            user.token
+          );
+
+        const exists =
+          wishlist.some(
+            (item) =>
+              item._id === id
+          );
+
+        setIsWishlist(exists);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  const handleWishlist =
+    async () => {
+      try {
+        if (isWishlist) {
+          await removeWishlist(
+            book._id,
+            user.token
+          );
+
+          setIsWishlist(false);
+        } else {
+          await addWishlist(
+            book._id,
+            user.token
+          );
+
+          setIsWishlist(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+  const addNote =
+    async (note) => {
+      try {
+        const updatedBook = {
+          ...book,
+          notes: [
+            ...(book.notes || []),
+            note,
+          ],
+        };
+
         await updateBook(
           id,
           updatedBook,
           user.token
         );
 
-      setBook(data);
-
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-    const checkWishlist =
-  async () => {
-    try {
-      const wishlist =
-        await getWishlist(
-          user.token
-        );
-
-      const exists =
-        wishlist.some(
-          (item) =>
-            item._id === id
-        );
-
-      setIsWishlist(exists);
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleWishlist =
-  async () => {
-    try {
-      if (isWishlist) {
-        await removeWishlist(
-          book._id,
-          user.token
-        );
-
-        setIsWishlist(false);
-      } else {
-        await addWishlist(
-          book._id,
-          user.token
-        );
-
-        setIsWishlist(true);
+        setBook(updatedBook);
+      } catch (error) {
+        console.error(error);
       }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const addNote = async (
-    note
-  ) => {
-    try {
-      const updatedBook = {
-        ...book,
-        notes: [
-          ...(book.notes ||
-            []),
-          note,
-        ],
-      };
-
-      await updateBook(
-        id,
-        updatedBook,
-        user.token
-      );
-
-      setBook(updatedBook);
-    } catch (error) {
-      console.error(error);
-    }
-  };
+    };
 
   const deleteNote =
     async (index) => {
       try {
         const updatedNotes =
           book.notes.filter(
-            (_, i) =>
-              i !== index
+            (_, i) => i !== index
           );
 
         const updatedBook = {
           ...book,
-          notes:
-            updatedNotes,
+          notes: updatedNotes,
         };
 
         await updateBook(
@@ -201,168 +166,170 @@ function BookDetails() {
 
   if (loading) {
     return (
-      <div className="book-details-loading">
-        Loading...
-      </div>
+      <DashboardLayout>
+        <div className="book-details-loading">
+          Loading...
+        </div>
+      </DashboardLayout>
     );
   }
 
   if (!book) {
     return (
-      <div className="book-details-loading">
-        Book not found
-      </div>
+      <DashboardLayout>
+        <div className="book-details-loading">
+          Book not found
+        </div>
+      </DashboardLayout>
     );
   }
 
   return (
-    <div className="book-details-page">
+    <DashboardLayout>
+      <div className="book-details-page">
 
-      <div className="book-details-card">
+        <div className="book-details-card">
 
-        <div className="book-cover-section">
-
-          {book.coverImage ? (
-            <img
-              src={book.coverImage}
-              alt={book.title}
-              className="book-cover"
-            />
-          ) : (
-            <div className="book-cover-placeholder">
-              No Cover
-            </div>
-          )}
-
-        </div>
-
-        <div className="book-info-section">
-
-          <div className="title-row">
-
-            <h1>{book.title}</h1>
-
-           <button
-  className="favorite-icon-btn"
-  onClick={handleFavorite}
->
-  {book.isFavorite
-    ? "❤️"
-    : "🤍"}
-</button>
-            <button
-  className="wishlist-icon-btn"
-  onClick={
-    handleWishlist
-  }
->
-  <FaBookmark
-    className={
-      isWishlist
-        ? "wishlist-active"
-        : "wishlist-inactive"
-    }
-  />
-</button>
-
+          <div className="book-cover-section">
+            {book.coverImage ? (
+              <img
+                src={book.coverImage}
+                alt={book.title}
+                className="book-cover"
+              />
+            ) : (
+              <div className="book-cover-placeholder">
+                No Cover
+              </div>
+            )}
           </div>
 
-          <h3>
-            by {book.author}
-          </h3>
+          <div className="book-info-section">
 
-          <p className="genre">
-            {book.genre}
-          </p>
+            <div className="title-row">
 
-          <span className="status-badge">
-            {book.readingStatus}
-          </span>
+              <h1>{book.title}</h1>
 
-          <div className="description">
-            <h4>Description</h4>
+              <div
+                style={{
+                  display: "flex",
+                  gap: "12px",
+                }}
+              >
+                <button
+                  className="favorite-icon-btn"
+                  onClick={handleFavorite}
+                >
+                  {book.isFavorite
+                    ? "❤️"
+                    : "🤍"}
+                </button>
 
-            <p>
-              {book.description}
+                <button
+                  className="wishlist-icon-btn"
+                  onClick={
+                    handleWishlist
+                  }
+                >
+                  <FaBookmark
+                    className={
+                      isWishlist
+                        ? "wishlist-active"
+                        : "wishlist-inactive"
+                    }
+                  />
+                </button>
+              </div>
+
+            </div>
+
+            <h3>
+              by {book.author}
+            </h3>
+
+            <p className="genre">
+              {book.genre}
             </p>
-          </div>
 
-          <div className="book-stats">
+            <span className="status-badge">
+              {book.readingStatus}
+            </span>
 
-            <div>
-              <strong>
-                Total Pages
-              </strong>
-              <br />
-              {
-                book.totalPages
-              }
+            <div className="description">
+              <h4>Description</h4>
+
+              <p>
+                {book.description}
+              </p>
             </div>
 
-            <div>
-              <strong>
-                Current Page
-              </strong>
-              <br />
-              {
+            <div className="book-stats">
+
+              <div>
+                <strong>
+                  Total Pages
+                </strong>
+                <br />
+                {book.totalPages}
+              </div>
+
+              <div>
+                <strong>
+                  Current Page
+                </strong>
+                <br />
+                {book.currentPage}
+              </div>
+
+              <div>
+                <strong>
+                  Rating
+                </strong>
+                <br />
+                ⭐ {book.rating || 0}/5
+              </div>
+
+            </div>
+
+            <ProgressTracker
+              currentPage={
                 book.currentPage
               }
+              totalPages={
+                book.totalPages
+              }
+            />
+
+            <div className="book-actions">
+
+              <Link
+                to={`/edit-book/${book._id}`}
+                className="edit-book-btn"
+              >
+                Edit Book
+              </Link>
+
+              <Link
+                to={`/reviews/${book._id}`}
+                className="reviews-btn"
+              >
+                Reviews
+              </Link>
+
             </div>
-
-            <div>
-              <strong>
-                Rating
-              </strong>
-              <br />
-              ⭐{book.rating || 0}/5
-            </div>
-
-          </div>
-
-          <ProgressTracker
-            currentPage={
-              book.currentPage
-            }
-            totalPages={
-              book.totalPages
-            }
-          />
-
-          <div className="book-actions">
-
-            <Link
-              to={`/edit-book/${book._id}`}
-              className="edit-book-btn"
-            >
-              Edit Book
-            </Link>
-
-            <Link
-              to={`/reviews/${book._id}`}
-              className="reviews-btn"
-            >
-              Reviews
-            </Link>
-
-            
 
           </div>
 
         </div>
 
+        <NotesSection
+          notes={book.notes || []}
+          onAddNote={addNote}
+          onDeleteNote={deleteNote}
+        />
+
       </div>
-
-      <NotesSection
-        notes={
-          book.notes || []
-        }
-        onAddNote={addNote}
-        onDeleteNote={
-          deleteNote
-        }
-      />
-
-    </div>
+    </DashboardLayout>
   );
 }
 

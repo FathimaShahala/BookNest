@@ -257,11 +257,15 @@ function MyBooks() {
 
           <div>
 
-            <h1>
-              📚 My Bookshelf
-            </h1>
+  <h1>
+    📚 My Bookshelf
+  </h1>
 
-          </div>
+  <p>
+    Manage, organize and track your reading collection.
+  </p>
+
+</div>
 
           <Link
             to="/add-book"
@@ -395,6 +399,7 @@ function MyBooks() {
           />
 
           <select
+            aria-label="Filter by Genre"
             value={genre}
             onChange={(e) =>
               setGenre(
@@ -419,6 +424,7 @@ function MyBooks() {
           </select>
 
           <select
+            aria-label="Sort Books"
             value={sort}
             onChange={(e) =>
               setSort(

@@ -1,5 +1,8 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import toast from "react-hot-toast";
+
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 import { useAuth } from "../../context/AuthContext";
 
@@ -16,7 +19,6 @@ import "./Reviews.css";
 
 function Reviews() {
   const { bookId } = useParams();
-
   const { user } = useAuth();
 
   const [reviews, setReviews] = useState([]);
@@ -28,110 +30,146 @@ function Reviews() {
 
   const loadReviews = async () => {
     try {
+      setLoading(true);
+
       const data = await getBookReviews(
         bookId,
         user.token
       );
 
       setReviews(data);
+
     } catch (error) {
-      console.error(error);
+      console.log(error);
+
+      toast.error(
+        "Failed to load reviews."
+      );
+
     } finally {
       setLoading(false);
     }
   };
 
-  const handleCreateReview =
-    async (reviewData) => {
-      try {
-        await createReview(
-          {
-            ...reviewData,
-            bookId,
-          },
-          user.token
-        );
+  const handleCreateReview = async (
+    reviewData
+  ) => {
+    try {
+      await createReview(
+        {
+          ...reviewData,
+          bookId,
+        },
+        user.token
+      );
 
-        loadReviews();
-      } catch (error) {
-        console.error(error);
-      }
-    };
+      toast.success(
+        "Review added successfully."
+      );
 
-  const handleDeleteReview =
-    async (reviewId) => {
-      try {
-        await deleteReview(
-          reviewId,
-          user.token
-        );
+      loadReviews();
 
-        setReviews(
-          reviews.filter(
-            (review) =>
-              review._id !== reviewId
-          )
-        );
-      } catch (error) {
-        console.error(error);
-      }
-    };
+    } catch (error) {
+      console.log(error);
 
-  if (loading) {
-    return (
-      <div className="reviews-loading">
-        Loading Reviews...
-      </div>
-    );
-  }
+      toast.error(
+        error.response?.data?.message ||
+          "Failed to add review."
+      );
+    }
+  };
+
+  const handleDeleteReview = async (
+    reviewId
+  ) => {
+    const confirmDelete =
+      window.confirm(
+        "Delete this review?"
+      );
+
+    if (!confirmDelete) return;
+
+    try {
+      await deleteReview(
+        reviewId,
+        user.token
+      );
+
+      setReviews((prev) =>
+        prev.filter(
+          (review) =>
+            review._id !== reviewId
+        )
+      );
+
+      toast.success(
+        "Review deleted."
+      );
+
+    } catch (error) {
+      console.log(error);
+
+      toast.error(
+        "Failed to delete review."
+      );
+    }
+  };
 
   return (
-    <div className="reviews-page">
-      <div className="reviews-container">
+    <DashboardLayout>
+      <div className="reviews-page">
+        <div className="reviews-container">
 
-        <h1>
-          Book Reviews
-        </h1>
+          <div className="reviews-header">
+            <h1>⭐ Book Reviews</h1>
+            <p>
+              Share your thoughts and read
+              what others think.
+            </p>
+          </div>
 
-        <ReviewForm
-          onSubmitReview={
-            handleCreateReview
-          }
-        />
+          <ReviewForm
+            onSubmitReview={
+              handleCreateReview
+            }
+          />
 
-        <div className="reviews-list">
-          {reviews.length === 0 ? (
-            <div className="no-reviews">
-              <h3>
-                No Reviews Yet
-              </h3>
-
-              <p>
-                Be the first to
-                review this book.
-              </p>
+          {loading ? (
+            <div className="reviews-loading">
+              Loading reviews...
             </div>
           ) : (
-            reviews.map(
-              (review) => (
-                <ReviewCard
-                  key={
-                    review._id
-                  }
-                  review={
-                    review
-                  }
-                  onDelete={
-                    handleDeleteReview
-                  }
-                />
-              )
-            )
-          )}
-        </div>
+            <div className="reviews-list">
 
+              {reviews.length === 0 ? (
+                <div className="no-reviews">
+                  <h3>
+                    No Reviews Yet 📖
+                  </h3>
+
+                  <p>
+                    Be the first to review
+                    this book.
+                  </p>
+                </div>
+              ) : (
+                reviews.map((review) => (
+                  <ReviewCard
+                    key={review._id}
+                    review={review}
+                    onDelete={
+                      handleDeleteReview
+                    }
+                  />
+                ))
+              )}
+
+            </div>
+          )}
+
+        </div>
       </div>
-    </div>
+    </DashboardLayout>
   );
 }
 

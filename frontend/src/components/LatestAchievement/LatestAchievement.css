@@ -1,19 +1,113 @@
 .latest-achievement {
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  margin: 20px 0;
-  box-shadow:
-    0 2px 8px
-    rgba(0,0,0,0.08);
+  background: linear-gradient(135deg, #ffffff, #f8fafc);
+  padding: 24px;
+  margin: 25px 0;
+  border-radius: 18px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+  border-left: 5px solid #fbbf24;
+  transition: all 0.3s ease;
+}
+
+.latest-achievement:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 30px rgba(251, 191, 36, 0.18);
+}
+
+.latest-achievement h2 {
+  font-size: 1.5rem;
+  color: #1f2937;
+  margin-bottom: 20px;
+  font-weight: 700;
 }
 
 .achievement-content {
   display: flex;
-  gap: 15px;
   align-items: center;
+  gap: 20px;
 }
 
 .achievement-icon {
-  font-size: 42px;
+  width: 75px;
+  height: 75px;
+  min-width: 75px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(135deg, #fbbf24, #f59e0b);
+  color: #fff;
+  font-size: 2.2rem;
+  border-radius: 50%;
+  box-shadow: 0 6px 18px rgba(251, 191, 36, 0.3);
+}
+
+.achievement-content h3 {
+  font-size: 1.25rem;
+  color: #111827;
+  margin-bottom: 8px;
+  font-weight: 700;
+}
+
+.achievement-content p {
+  color: #6b7280;
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+
+  .latest-achievement {
+    padding: 20px;
+  }
+
+  .latest-achievement h2 {
+    font-size: 1.3rem;
+    text-align: center;
+  }
+
+  .achievement-content {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .achievement-icon {
+    width: 68px;
+    height: 68px;
+    min-width: 68px;
+    font-size: 2rem;
+  }
+
+  .achievement-content h3 {
+    font-size: 1.15rem;
+  }
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+  .latest-achievement {
+    padding: 18px;
+    border-radius: 14px;
+  }
+
+  .latest-achievement h2 {
+    font-size: 1.15rem;
+  }
+
+  .achievement-icon {
+    width: 60px;
+    height: 60px;
+    min-width: 60px;
+    font-size: 1.8rem;
+  }
+
+  .achievement-content h3 {
+    font-size: 1rem;
+  }
+
+  .achievement-content p {
+    font-size: 0.9rem;
+  }
 }

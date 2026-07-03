@@ -9,19 +9,28 @@ import {
   getStatistics,
 } from "../../services/statsService";
 
-import { useAuth }
-from "../../context/AuthContext";
+import { useAuth } from "../../context/AuthContext";
+
+import {
+  FaBook,
+  FaCheckCircle,
+  FaBookOpen,
+  FaStar,
+  FaFileAlt,
+  FaTags,
+} from "react-icons/fa";
 
 import "./Statistics.css";
 
 function Statistics() {
 
-  const { user } =
-    useAuth();
+  const { user } = useAuth();
 
-  const [stats,
-    setStats] =
+  const [stats, setStats] =
     useState(null);
+
+  const [loading, setLoading] =
+    useState(true);
 
   useEffect(() => {
     loadStats();
@@ -30,100 +39,138 @@ function Statistics() {
   const loadStats =
     async () => {
       try {
+
         const data =
           await getStatistics(
             user.token
           );
 
         setStats(data);
+
       } catch (error) {
         console.log(error);
+      } finally {
+        setLoading(false);
       }
     };
 
-  if (!stats) {
+  if (loading) {
+
     return (
       <DashboardLayout>
-        Loading...
+
+        <div className="stats-loading">
+          Loading Statistics...
+        </div>
+
       </DashboardLayout>
     );
+
   }
 
   return (
+
     <DashboardLayout>
 
       <div className="stats-page">
 
-        <h1>
-          📊 Reading Statistics
-        </h1>
+        <div className="stats-header">
+
+          <h1>
+            📊 Reading Statistics
+          </h1>
+
+          <p>
+            Track your reading journey
+            and discover your habits.
+          </p>
+
+        </div>
 
         <div className="stats-grid">
 
           <div className="stat-card">
-            <h3>
-              Total Books
-            </h3>
-            <p>
-              {
-                stats.totalBooks
-              }
-            </p>
+
+            <div className="stat-icon">
+              <FaBook />
+            </div>
+
+            <h3>Total Books</h3>
+
+            <h2>
+              {stats.totalBooks}
+            </h2>
+
           </div>
 
           <div className="stat-card">
-            <h3>
-              Completed
-            </h3>
-            <p>
-              {
-                stats.completedBooks
-              }
-            </p>
+
+            <div className="stat-icon success">
+              <FaCheckCircle />
+            </div>
+
+            <h3>Completed</h3>
+
+            <h2>
+              {stats.completedBooks}
+            </h2>
+
           </div>
 
           <div className="stat-card">
-            <h3>
-              Currently Reading
-            </h3>
-            <p>
-              {
-                stats.currentlyReading
-              }
-            </p>
+
+            <div className="stat-icon info">
+              <FaBookOpen />
+            </div>
+
+            <h3>Currently Reading</h3>
+
+            <h2>
+              {stats.currentlyReading}
+            </h2>
+
           </div>
 
           <div className="stat-card">
-            <h3>
-              Average Rating
-            </h3>
-            <p>
-              {
-                stats.averageRating
-              }
-            </p>
+
+            <div className="stat-icon warning">
+              <FaStar />
+            </div>
+
+            <h3>Average Rating</h3>
+
+            <h2>
+              ⭐ {stats.averageRating || 0}
+            </h2>
+
           </div>
 
           <div className="stat-card">
-            <h3>
-              Pages Read
-            </h3>
-            <p>
-              {
-                stats.totalPagesRead
-              }
-            </p>
+
+            <div className="stat-icon purple">
+              <FaFileAlt />
+            </div>
+
+            <h3>Pages Read</h3>
+
+            <h2>
+              {stats.totalPagesRead}
+            </h2>
+
           </div>
 
           <div className="stat-card">
-            <h3>
-              Favorite Genre
-            </h3>
-            <p>
-              {
-                stats.favoriteGenre
-              }
-            </p>
+
+            <div className="stat-icon pink">
+              <FaTags />
+            </div>
+
+            <h3>Favorite Genre</h3>
+
+            <h2>
+              {stats.favoriteGenre || "N/A"}
+            </h2>
+
           </div>
 
         </div>
@@ -131,7 +178,9 @@ function Statistics() {
       </div>
 
     </DashboardLayout>
+
   );
+
 }
 
 export default Statistics;

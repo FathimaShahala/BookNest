@@ -3,11 +3,8 @@ import {
   useState,
 } from "react";
 
-import DashboardLayout
-from "../../layouts/DashboardLayout";
-
-import { useAuth }
-from "../../context/AuthContext";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import { useAuth } from "../../context/AuthContext";
 
 import {
   getAchievements,
@@ -17,34 +14,46 @@ import "./Achievements.css";
 
 function Achievements() {
 
-  const { user } =
-    useAuth();
+  const { user } = useAuth();
 
-  const [
-    achievements,
-    setAchievements,
-  ] = useState([]);
+  const [achievements, setAchievements] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    loadAchievements();
-  }, []);
+    if (user) {
+      loadAchievements();
+    }
+  }, [user]);
 
-  const loadAchievements =
-    async () => {
-      try {
-        const data =
-          await getAchievements(
-            user.token
-          );
+  const loadAchievements = async () => {
+    try {
 
-        setAchievements(
-          data
-        );
-      } catch (error) {
-        console.log(error);
-      }
-    };
-console.log(achievements);
+      const data =
+        await getAchievements(user.token);
+
+      setAchievements(data);
+
+    } catch (error) {
+
+      console.log(error);
+
+    } finally {
+
+      setLoading(false);
+
+    }
+  };
+
+  if (loading) {
+    return (
+      <DashboardLayout>
+        <div className="achievements-loading">
+          Loading achievements...
+        </div>
+      </DashboardLayout>
+    );
+  }
+
   return (
     <DashboardLayout>
 
@@ -54,28 +63,35 @@ console.log(achievements);
           🏆 Reading Achievements
         </h1>
 
-        <div className="achievement-grid">
+        {achievements.length === 0 ? (
 
-          {achievements.map(
-            (
-              achievement
-            ) => {
+          <div className="empty-achievements">
 
-              const percent =
-                Math.min(
-                  (
-                    achievement.progress /
-                    achievement.target
-                  ) *
-                    100,
-                  100
-                );
+            <h2>
+              No Achievements Yet
+            </h2>
+
+            <p>
+              Start reading books to unlock your first achievement.
+            </p>
+
+          </div>
+
+        ) : (
+
+          <div className="achievement-grid">
+
+            {achievements.map((achievement) => {
+
+              const percent = Math.min(
+                (achievement.progress / achievement.target) * 100,
+                100
+              );
 
               return (
+
                 <div
-                  key={
-                    achievement.title
-                  }
+                  key={achievement.title}
                   className={`achievement-card ${
                     achievement.unlocked
                       ? "unlocked"
@@ -84,27 +100,15 @@ console.log(achievements);
                 >
 
                   <div className="achievement-icon">
-                    {
-                      achievement.icon
-                    }
+                    {achievement.icon}
                   </div>
 
                   <h3>
-                    {
-                      achievement.title
-                    }
+                    {achievement.title}
                   </h3>
 
                   <p>
-                    {
-                      achievement.progress
-                    }
-                    /
-                    {
-                      achievement.target
-                    }
-                    {" "}
-                    books
+                    {achievement.progress} / {achievement.target} books
                   </p>
 
                   <div className="achievement-progress">
@@ -112,27 +116,31 @@ console.log(achievements);
                     <div
                       className="achievement-fill"
                       style={{
-                        width:
-                          `${percent}%`,
+                        width: `${percent}%`,
                       }}
                     />
 
                   </div>
 
-                  <span>
+                  <small>
+                    {Math.round(percent)}%
+                    Complete
+                  </small>
 
+                  <span>
                     {achievement.unlocked
                       ? "✅ Unlocked"
                       : "🔒 Locked"}
-
                   </span>
 
                 </div>
-              );
-            }
-          )}
 
-        </div>
+              );
+            })}
+
+          </div>
+
+        )}
 
       </div>
 

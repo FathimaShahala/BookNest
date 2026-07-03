@@ -1,41 +1,62 @@
 import "./StreakCard.css";
 
 function StreakCard({
-  currentStreak,
-  longestStreak,
+  currentStreak = 0,
+  longestStreak = 0,
 }) {
+
   return (
     <div className="streak-card">
 
-      <h2>
-        🔥 Reading Streak
-      </h2>
+      <div className="streak-header">
+
+        <h2>🔥 Reading Streak</h2>
+
+        <span className="streak-badge">
+          Keep Going!
+        </span>
+
+      </div>
 
       <div className="streak-info">
 
-        <div>
-          <h3>
-            Current
-          </h3>
+        <div className="streak-box">
 
-          <p>
-            {
-              currentStreak
-            } Days
-          </p>
+          <h3>Current</h3>
+
+          <h1>
+            {currentStreak}
+          </h1>
+
+          <p>Days</p>
+
         </div>
 
-        <div>
-          <h3>
-            Longest
-          </h3>
+        <div className="streak-box">
 
-          <p>
-            {
-              longestStreak
-            } Days
-          </p>
+          <h3>Longest</h3>
+
+          <h1>
+            {longestStreak}
+          </h1>
+
+          <p>Days</p>
+
         </div>
+
+      </div>
+
+      <div className="streak-footer">
+
+        {currentStreak === 0 ? (
+          <p>
+            📚 Start reading today to begin your streak.
+          </p>
+        ) : (
+          <p>
+            🚀 You've read for <strong>{currentStreak}</strong> consecutive days!
+          </p>
+        )}
 
       </div>
 

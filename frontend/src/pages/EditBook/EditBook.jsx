@@ -10,6 +10,7 @@ import {
 } from "../../services/bookService";
 
 import "./EditBook.css";
+import DashboardLayout from "../../layouts/DashboardLayout";
 
 function EditBook() {
   const { id } = useParams();
@@ -140,14 +141,17 @@ function EditBook() {
     };
 
   if (loading) {
-    return (
+  return (
+    <DashboardLayout>
       <div className="edit-loading">
         Loading...
       </div>
-    );
-  }
+    </DashboardLayout>
+  );
+}
 
   return (
+    <DashboardLayout>
     <div className="edit-book-page">
       <div className="edit-book-container">
 
@@ -290,14 +294,7 @@ function EditBook() {
           </select>
           <div className="rating-display">
   ⭐ Rating: {formData.rating}/5
-  <input
-  type="number"
-  name="rating"
-  min="0"
-  max="5"
-  value={formData.rating}
-  onChange={handleChange}
-/>
+ 
 </div>
 
           <button
@@ -308,6 +305,7 @@ function EditBook() {
         </form>
       </div>
     </div>
+    </DashboardLayout>
   );
 }
 

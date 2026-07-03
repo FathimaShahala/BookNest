@@ -6,6 +6,7 @@ const {
   getBook,
   updateBook,
   deleteBook,
+  getFavoriteBooks,
 } = require(
   "../controllers/bookController"
 );
@@ -27,6 +28,12 @@ router
     protect,
     getBooks
   );
+
+  router.get(
+  "/favorites",
+  protect,
+  getFavoriteBooks
+);
 
 router
   .route("/:id")

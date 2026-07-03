@@ -1,3 +1,7 @@
+/* ===========================
+   Book Details Page
+=========================== */
+
 .book-details-page {
   max-width: 1200px;
   margin: 0 auto;
@@ -13,6 +17,10 @@
   font-weight: 500;
 }
 
+/* ===========================
+   Main Card
+=========================== */
+
 .book-details-card {
   display: flex;
   gap: 40px;
@@ -23,29 +31,41 @@
   margin-bottom: 40px;
 }
 
+/* ===========================
+   Book Cover
+=========================== */
+
 .book-cover-section {
   flex-shrink: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .book-cover {
-  width: 260px;
-  height: 380px;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 2 / 3;
   object-fit: cover;
   border-radius: 12px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
 }
 
 .book-cover-placeholder {
-  width: 260px;
-  height: 380px;
-  border-radius: 12px;
+  width: 100%;
+  max-width: 260px;
+  aspect-ratio: 2 / 3;
   background: #f3f4f6;
+  border-radius: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   color: #777;
   font-weight: 600;
 }
+
+/* ===========================
+   Book Info
+=========================== */
 
 .book-info-section {
   flex: 1;
@@ -54,6 +74,7 @@
 .book-info-section h1 {
   margin-bottom: 10px;
   color: #222;
+  font-size: 2rem;
 }
 
 .book-info-section h3 {
@@ -61,6 +82,18 @@
   margin-bottom: 15px;
   font-weight: 500;
 }
+
+.title-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+/* ===========================
+   Genre & Status
+=========================== */
 
 .genre {
   display: inline-block;
@@ -82,85 +115,47 @@
   margin-bottom: 25px;
 }
 
+/* ===========================
+   Description
+=========================== */
+
 .description {
   margin-bottom: 25px;
 }
 
 .description h4 {
   margin-bottom: 10px;
-  color: #222;
 }
 
 .description p {
   line-height: 1.7;
   color: #555;
 }
-.title-row {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
 
-.favorite-icon-btn {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 25px;
-}
+/* ===========================
+   Favorite & Wishlist
+=========================== */
 
-.favorite-active {
-  color: #ef4444;
-  transition: 0.3s;
-}
-
-.favorite-inactive {
-  color: #d1d5db;
-  transition: 0.3s;
-}
-
-.favorite-icon-btn:hover
-  .favorite-inactive {
-  color: #f87171;
-}
-
-.book-actions {
-  display: flex;
-  gap: 12px;
-  margin-top: 25px;
-  flex-wrap: wrap;
-}
-
-.edit-book-btn,
-.reviews-btn {
-  text-decoration: none;
-  color: white;
-  padding: 12px 18px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: 0.3s;
-}
-
-.edit-book-btn {
-  background: #4f46e5;
-}
-
-.edit-book-btn:hover {
-  background: #4338ca;
-}
-
-.reviews-btn {
-  background: #059669;
-}
-
-.reviews-btn:hover {
-  background: #047857;
-}
-
+.favorite-icon-btn,
 .wishlist-icon-btn {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 28px;
+  transition: .3s;
+}
+
+.favorite-icon-btn:hover,
+.wishlist-icon-btn:hover {
+  transform: scale(1.15);
+}
+
+.favorite-active {
+  color: #ef4444;
+}
+
+.favorite-inactive {
+  color: #d1d5db;
 }
 
 .wishlist-active {
@@ -171,38 +166,15 @@
   color: #d1d5db;
 }
 
-@media (max-width: 768px) {
-  .title-row {
-    align-items: flex-start;
-  }
+/* ===========================
+   Stats
+=========================== */
 
-  .book-actions {
-    flex-direction: column;
-  }
-
-  .edit-book-btn,
-  .reviews-btn {
-    width: 100%;
-    text-align: center;
-  }
-}
-
-.favorite-btn {
-  background: crimson;
-  color: white;
-  border: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  cursor: pointer;
-}
 .book-stats {
   display: grid;
-  grid-template-columns: repeat(
-    auto-fit,
-    minmax(180px, 1fr)
-  );
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 15px;
-  margin-bottom: 25px;
+  margin: 25px 0;
 }
 
 .book-stats div {
@@ -215,6 +187,10 @@
 .book-stats strong {
   color: #222;
 }
+
+/* ===========================
+   Progress
+=========================== */
 
 .progress-card {
   margin-top: 20px;
@@ -238,63 +214,13 @@
   height: 100%;
   background: #4f46e5;
   border-radius: 10px;
-  transition: width 0.4s ease;
+  transition: width .4s ease;
 }
 
-@media (max-width: 992px) {
-  .book-details-card {
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-  }
+/* ===========================
+   Buttons
+=========================== */
 
-  .book-cover {
-    width: 220px;
-    height: 320px;
-  }
-
-  .book-cover-placeholder {
-    width: 220px;
-    height: 320px;
-  }
-
-  .genre,
-  .status-badge {
-    margin-right: 10px;
-  }
-}
-
-@media (max-width: 768px) {
-  .book-details-page {
-    padding: 20px 15px;
-  }
-
-  .book-details-card {
-    padding: 20px;
-  }
-
-  .book-cover {
-    width: 180px;
-    height: 270px;
-  }
-
-  .book-cover-placeholder {
-    width: 180px;
-    height: 270px;
-  }
-
-  .book-info-section h1 {
-    font-size: 24px;
-  }
-
-  .book-info-section h3 {
-    font-size: 18px;
-  }
-
-  .book-stats {
-    grid-template-columns: 1fr;
-  }
-}
 .book-actions {
   display: flex;
   gap: 12px;
@@ -305,11 +231,11 @@
 .edit-book-btn,
 .reviews-btn {
   text-decoration: none;
+  color: white;
   padding: 12px 20px;
   border-radius: 8px;
-  color: white;
   font-weight: 600;
-  transition: 0.3s;
+  transition: .3s;
 }
 
 .edit-book-btn {
@@ -328,14 +254,124 @@
   background: #047857;
 }
 
-@media (max-width: 768px) {
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width:992px) {
+
+  .book-details-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 25px;
+  }
+
+  .book-info-section {
+    width: 100%;
+  }
+
+  .title-row {
+    justify-content: center;
+  }
+
+  .book-cover,
+  .book-cover-placeholder {
+    max-width: 220px;
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width:768px) {
+
+  .book-details-page {
+    padding: 15px;
+  }
+
+  .book-details-card {
+    padding: 20px;
+    gap: 20px;
+  }
+
+  .book-cover,
+  .book-cover-placeholder {
+    max-width: 180px;
+  }
+
+  .book-info-section h1 {
+    font-size: 1.6rem;
+  }
+
+  .book-info-section h3 {
+    font-size: 1rem;
+  }
+
+  .book-stats {
+    grid-template-columns: 1fr;
+  }
+
   .book-actions {
     flex-direction: column;
   }
 
   .edit-book-btn,
   .reviews-btn {
-    text-align: center;
     width: 100%;
+    text-align: center;
   }
+
+  .title-row {
+    justify-content: center;
+  }
+
+}
+
+/* ===========================
+   Small Mobile
+=========================== */
+
+@media (max-width:480px) {
+
+  .book-details-page {
+    padding: 10px;
+  }
+
+  .book-details-card {
+    padding: 15px;
+    border-radius: 12px;
+  }
+
+  .book-cover,
+  .book-cover-placeholder {
+    max-width: 150px;
+  }
+
+  .book-info-section h1 {
+    font-size: 1.35rem;
+  }
+
+  .book-info-section h3 {
+    font-size: .95rem;
+  }
+
+  .genre,
+  .status-badge {
+    width: 100%;
+    text-align: center;
+    margin-bottom: 10px;
+  }
+
+  .book-stats div {
+    padding: 12px;
+  }
+
+  .favorite-icon-btn,
+  .wishlist-icon-btn {
+    font-size: 24px;
+  }
+
 }

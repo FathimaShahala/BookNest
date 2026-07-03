@@ -1,200 +1,178 @@
-import DashboardLayout
-from "../../layouts/DashboardLayout";
-
-import { useNavigate }
-from "react-router-dom";
-
-import { useAuth }
-from "../../context/AuthContext";
+import DashboardLayout from "../../layouts/DashboardLayout";
+import { useNavigate } from "react-router-dom";
+import { useAuth } from "../../context/AuthContext";
+import { useTheme } from "../../context/ThemeContext";
 
 import {
-  useTheme,
-} from "../../context/ThemeContext";
+  FaMoon,
+  FaSun,
+  FaUserEdit,
+  FaBullseye,
+  FaChartBar,
+  FaTrophy,
+  FaSignOutAlt,
+} from "react-icons/fa";
 
 import "./Settings.css";
 
 function Settings() {
 
-  const navigate =
-    useNavigate();
+  const navigate = useNavigate();
 
-  const { logout } =
-    useAuth();
+  const { logout } = useAuth();
 
-  const {
-    theme,
-    toggleTheme,
-  } = useTheme();
+  const { theme, toggleTheme } = useTheme();
 
-  const handleLogout =
-    () => {
-
-      logout();
-
-      navigate(
-        "/login"
-      );
-    };
+  const handleLogout = () => {
+    logout();
+    navigate("/login");
+  };
 
   return (
     <DashboardLayout>
 
       <div className="settings-page">
 
-        <h1>
-          ⚙ Settings
-        </h1>
-
-        {/* Appearance */}
-
-        <div className="settings-section">
-
-          <h2>
-            Appearance
-          </h2>
+        <div className="settings-header">
+          <h1>⚙ Settings</h1>
 
           <p>
-            Customize the look and feel
-            of BookNest.
+            Personalize your BookNest
+            experience and manage your account.
           </p>
-
-          <button
-            className="settings-btn"
-            onClick={
-              toggleTheme
-            }
-          >
-            {theme === "light"
-              ? "🌙 Switch to Dark Mode"
-              : "☀️ Switch to Light Mode"}
-          </button>
-
         </div>
 
-        {/* Account */}
+        <div className="settings-grid">
 
-        <div className="settings-section">
+          <div className="settings-card">
+            <div className="settings-icon">
+              {theme === "light" ? (
+                <FaMoon />
+              ) : (
+                <FaSun />
+              )}
+            </div>
 
-          <h2>
-            Account
-          </h2>
+            <h3>Appearance</h3>
 
-          <p>
-            Manage your profile
-            information.
-          </p>
+            <p>
+              Switch between light and dark mode.
+            </p>
 
-          <button
-            className="settings-btn"
-            onClick={() =>
-              navigate(
-                "/edit-profile"
-              )
-            }
-          >
-            ✏ Edit Profile
-          </button>
+            <button
+              className="settings-btn"
+              onClick={toggleTheme}
+            >
+              {theme === "light"
+                ? "Dark Mode"
+                : "Light Mode"}
+            </button>
+          </div>
 
-        </div>
+          <div className="settings-card">
+            <div className="settings-icon">
+              <FaUserEdit />
+            </div>
 
-        {/* Reading Goals */}
+            <h3>Edit Profile</h3>
 
-        <div className="settings-section">
+            <p>
+              Update your profile information and picture.
+            </p>
 
-          <h2>
-            Reading Goals
-          </h2>
+            <button
+              className="settings-btn"
+              onClick={() =>
+                navigate("/edit-profile")
+              }
+            >
+              Edit Profile
+            </button>
+          </div>
 
-          <p>
-            Update your monthly and
-            yearly reading targets.
-          </p>
+          <div className="settings-card">
+            <div className="settings-icon">
+              <FaBullseye />
+            </div>
 
-          <button
-            className="settings-btn"
-            onClick={() =>
-              navigate(
-                "/goals"
-              )
-            }
-          >
-            📚 Manage Goals
-          </button>
+            <h3>Reading Goals</h3>
 
-        </div>
+            <p>
+              Set your monthly and yearly reading targets.
+            </p>
 
-        {/* Statistics */}
+            <button
+              className="settings-btn"
+              onClick={() =>
+                navigate("/goals")
+              }
+            >
+              Manage Goals
+            </button>
+          </div>
 
-        <div className="settings-section">
+          <div className="settings-card">
+            <div className="settings-icon">
+              <FaChartBar />
+            </div>
 
-          <h2>
-            Statistics
-          </h2>
+            <h3>Statistics</h3>
 
-          <p>
-            View your reading analytics
-            and progress.
-          </p>
+            <p>
+              View your reading analytics and progress.
+            </p>
 
-          <button
-            className="settings-btn"
-            onClick={() =>
-              navigate(
-                "/statistics"
-              )
-            }
-          >
-            📊 View Statistics
-          </button>
+            <button
+              className="settings-btn"
+              onClick={() =>
+                navigate("/statistics")
+              }
+            >
+              View Statistics
+            </button>
+          </div>
 
-        </div>
+          <div className="settings-card">
+            <div className="settings-icon">
+              <FaTrophy />
+            </div>
 
-        {/* Achievements */}
+            <h3>Achievements</h3>
 
-        <div className="settings-section">
+            <p>
+              Check your unlocked reading milestones.
+            </p>
 
-          <h2>
-            Achievements
-          </h2>
+            <button
+              className="settings-btn"
+              onClick={() =>
+                navigate("/achievements")
+              }
+            >
+              View Achievements
+            </button>
+          </div>
 
-          <p>
-            View your unlocked reading
-            milestones.
-          </p>
+          <div className="settings-card danger-card">
 
-          <button
-            className="settings-btn"
-            onClick={() =>
-              navigate(
-                "/achievements"
-              )
-            }
-          >
-            🏆 View Achievements
-          </button>
+            <div className="settings-icon danger-icon">
+              <FaSignOutAlt />
+            </div>
 
-        </div>
+            <h3>Logout</h3>
 
-        {/* Danger Zone */}
+            <p>
+              Securely sign out from your BookNest account.
+            </p>
 
-        <div className="settings-section danger-zone">
+            <button
+              className="logout-btn"
+              onClick={handleLogout}
+            >
+              Logout
+            </button>
 
-          <h2>
-            Account Actions
-          </h2>
-
-          <p>
-            Logout from your account.
-          </p>
-
-          <button
-            className="logout-btn"
-            onClick={
-              handleLogout
-            }
-          >
-            🚪 Logout
-          </button>
+          </div>
 
         </div>
 

@@ -1,19 +1,68 @@
+/* ===========================
+   Star Rating
+=========================== */
+
 .star-rating {
   display: flex;
-  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin: 20px 0;
 }
 
 .star {
-  font-size: 32px;
-  cursor: pointer;
+  font-size: 34px;
   color: #d1d5db;
-  transition: 0.3s;
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.25s ease,
+              transform 0.25s ease,
+              text-shadow 0.25s ease;
 }
 
 .star:hover {
-  transform: scale(1.1);
+  transform: scale(1.2);
 }
 
 .star.active {
   color: #fbbf24;
+  text-shadow: 0 0 8px rgba(251, 191, 36, 0.45);
+}
+
+.star:focus {
+  outline: none;
+  transform: scale(1.15);
+}
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width: 768px) {
+
+  .star-rating {
+    gap: 6px;
+  }
+
+  .star {
+    font-size: 30px;
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width: 480px) {
+
+  .star-rating {
+    gap: 5px;
+    margin: 15px 0;
+  }
+
+  .star {
+    font-size: 26px;
+  }
+
 }

@@ -43,6 +43,7 @@ function Sidebar({
         return;
 
       logout();
+closeSidebar();
 
       toast.success(
         "Logged out successfully"

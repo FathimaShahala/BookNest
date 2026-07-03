@@ -1,32 +1,134 @@
 .streak-card {
-  background: white;
-
-  padding: 20px;
-
-  border-radius: 12px;
-
-  margin-bottom: 20px;
-
-  box-shadow:
-    0 2px 8px
-    rgba(
-      0,
-      0,
-      0,
-      0.08
-    );
+  background: #ffffff;
+  padding: 24px;
+  border-radius: 16px;
+  margin-bottom: 25px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
 }
+
+/* Header */
+
+.streak-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 25px;
+}
+
+.streak-header h2 {
+  margin: 0;
+  color: #1f2937;
+  font-size: 22px;
+}
+
+.streak-badge {
+  background: #fff7ed;
+  color: #ea580c;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 600;
+}
+
+/* Stats */
 
 .streak-info {
-  display: flex;
-
-  justify-content:
-    space-between;
-
-  margin-top: 15px;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
-.streak-info p {
-  font-size: 24px;
-  font-weight: bold;
+.streak-box {
+  background: #f8fafc;
+  border: 1px solid #e5e7eb;
+  border-radius: 14px;
+  padding: 20px;
+  text-align: center;
+  transition: 0.3s ease;
+}
+
+.streak-box:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.streak-box h3 {
+  margin: 0;
+  color: #6b7280;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.streak-box h1 {
+  margin: 12px 0 6px;
+  font-size: 42px;
+  color: #f97316;
+}
+
+.streak-box p {
+  margin: 0;
+  color: #6b7280;
+  font-size: 14px;
+}
+
+/* Footer */
+
+.streak-footer {
+  margin-top: 22px;
+  text-align: center;
+  color: #374151;
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+/* Tablet */
+
+@media (max-width: 768px) {
+
+  .streak-card {
+    padding: 20px;
+  }
+
+  .streak-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+}
+
+/* Mobile */
+
+@media (max-width: 480px) {
+
+  .streak-card {
+    padding: 18px;
+  }
+
+  .streak-header h2 {
+    font-size: 20px;
+  }
+
+  .streak-badge {
+    font-size: 13px;
+    padding: 6px 12px;
+  }
+
+  .streak-info {
+    grid-template-columns: 1fr;
+    gap: 15px;
+  }
+
+  .streak-box {
+    padding: 18px;
+  }
+
+  .streak-box h1 {
+    font-size: 34px;
+  }
+
+  .streak-footer {
+    font-size: 14px;
+  }
+
 }

@@ -14,7 +14,7 @@ import Login from "./pages/Login/Login";
 import Register from "./pages/Register/Register";
 
 import Dashboard from "./pages/Dashboard/Dashboard";
-
+import Tracker from "./pages/Tracker/Tracker";
 import MyBooks from "./pages/MyBooks/MyBooks";
 import AddBook from "./pages/AddBook/AddBook";
 import EditBook from "./pages/EditBook/EditBook";
@@ -50,6 +50,8 @@ function Layout() {
     "/wishlist",
 
     "/goals",
+    
+    "/tracker",
 
     "/statistics",
 
@@ -113,6 +115,16 @@ function Layout() {
             </ProtectedRoute>
           }
         />
+        {/* ---------- Tracker ---------- */}
+
+        <Route
+  path="/tracker"
+  element={
+    <ProtectedRoute>
+  <Tracker />
+    </ProtectedRoute>
+  }
+/>
 
         {/* ---------- Books ---------- */}
 

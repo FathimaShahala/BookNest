@@ -3,6 +3,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
 import toast from "react-hot-toast";
+import { FaFire } from "react-icons/fa";
 
 import "./Sidebar.css";
 
@@ -131,7 +132,12 @@ closeSidebar();
         >
           🎯 Reading Goals
         </NavLink>
-
+<NavLink
+  to="/tracker"
+  className="sidebar-link"
+>
+  🔥Tracker
+</NavLink>
         <NavLink
           to="/statistics"
           className="sidebar-link"

@@ -1,0 +1,23 @@
+.tracker-page{
+
+    padding:30px;
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:30px;
+
+}
+
+@media(max-width:768px){
+
+.tracker-page{
+
+padding:20px;
+
+gap:20px;
+
+}
+
+}

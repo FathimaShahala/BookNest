@@ -17,10 +17,7 @@ app.use(express.json());
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  "/uploads",
-  express.static(path.join(__dirname, "uploads"))
-);
+app.use("/uploads", express.static(path.join(__dirname, "uploads")));
 
 /* Health Check */
 app.get("/", (req, res) => {
@@ -28,72 +25,31 @@ app.get("/", (req, res) => {
 });
 
 /* Routes */
-app.use(
-  "/api/auth",
-  require("./routes/authRoutes")
-);
+app.use("/api/auth", require("./routes/authRoutes"));
 
-app.use(
-  "/api/users",
-  require("./routes/userRoutes")
-);
+app.use("/api/users", require("./routes/userRoutes"));
 
-app.use(
-  "/api/books",
-  require("./routes/bookRoutes")
-);
+app.use("/api/books", require("./routes/bookRoutes"));
 
-app.use(
-  "/api/reviews",
-  require("./routes/reviewRoutes")
-);
+app.use("/api/reviews", require("./routes/reviewRoutes"));
 
-app.use(
-  "/api/upload",
-  require("./routes/uploadRoutes")
-);
+app.use("/api/upload", require("./routes/uploadRoutes"));
 
-app.use(
-  "/api/goals",
-  require(  "./routes/goalRoutes")
-);
+app.use("/api/goals", require("./routes/goalRoutes"));
 
-app.use(
-  "/api/stats",
-  require(
-    "./routes/statsRoutes"
-  )
-);
+app.use("/api/stats", require("./routes/statsRoutes"));
 
-app.use(
-  "/api/achievements",
-  require(
-    "./routes/achievementRoutes"
-  )
-);
-app.use(
-  "/api/streak",
-  require(
-    "./routes/streakRoutes"
-  )
-);
-app.use(
-  "/api/profile",
-  require(
-    "./routes/profileRoutes"
-  )
-);
-app.use(
-  "/api/profile-upload",
-  require(
-    "./routes/profileUploadRoutes"
-  )
-);
-app.use(
-  "/api/reading-tracker",
-  require("./routes/readingSessionRoutes")
-);
+app.use("/api/achievements", require("./routes/achievementRoutes"));
+app.use("/api/streak", require("./routes/streakRoutes"));
+app.use("/api/profile", require("./routes/profileRoutes"));
+app.use("/api/profile-upload", require("./routes/profileUploadRoutes"));
+app.use("/api/tracker",require("./routes/trackerRoutes"),);
 
+// app.use(
+//   "/api/reading-tracker",
+//   require("./routes/readingSessionRoutes")
+// );
+// app.use("/api/heatmap", require("./routes/heatmapRoutes"));
 /* 404 Handler */
 app.use((req, res) => {
   res.status(404).json({
@@ -102,25 +58,16 @@ app.use((req, res) => {
 });
 
 /* Global Error Handler */
-app.use(
-  (err, req, res, next) => {
-    console.error(err);
+app.use((err, req, res, next) => {
+  console.error(err);
 
-    res.status(
-      err.status || 500
-    ).json({
-      message:
-        err.message ||
-        "Server Error",
-    });
-  }
-);
+  res.status(err.status || 500).json({
+    message: err.message || "Server Error",
+  });
+});
 
-const PORT =
-  process.env.PORT || 5000;
+const PORT = process.env.PORT || 5000;
 
 app.listen(PORT, () => {
-  console.log(
-    `Server running on port ${PORT}`
-  );
+  console.log(`Server running on port ${PORT}`);
 });

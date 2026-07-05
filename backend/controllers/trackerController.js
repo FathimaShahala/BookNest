@@ -1,193 +1,179 @@
-const ReadingSession =
-require("../models/ReadingSession");
+const ReadingSession = require("../models/ReadingSession");
 
-const Book =
-require("../models/Book");
+const Book = require("../models/Book");
 
 /* ===========================
    Add Reading Session
 =========================== */
 
-const addReadingSession =
-async (req,res)=>{
+const addReadingSession = async (req, res) => {
+  try {
+    const {
+      book,
 
-try{
+      date,
 
-const{
+      startPage,
 
-book,
+      endPage,
 
-date,
+      minutesRead,
 
-startPage,
+      mood,
 
-endPage,
+      notes,
+    } = req.body;
 
-minutesRead,
+    const pagesRead = Number(endPage) - Number(startPage);
 
-mood,
+    const session = await ReadingSession.create({
+      userId: req.user._id,
 
-notes,
+      book,
 
-}=req.body;
+      date,
 
-const pagesRead =
-Number(endPage)-
-Number(startPage);
+      startPage,
 
-const session =
-await ReadingSession.create({
+      endPage,
 
-userId:req.user._id,
+      pagesRead,
 
-book,
+      minutesRead,
 
-date,
+      mood,
 
-startPage,
+      notes,
+    });
 
-endPage,
+    await Book.findByIdAndUpdate(
+      book,
 
-pagesRead,
+      {
+        currentPage: endPage,
+      },
+    );
 
-minutesRead,
-
-mood,
-
-notes,
-
-});
-
-await Book.findByIdAndUpdate(
-
-book,
-
-{
-
-currentPage:endPage,
-
-},
-
-);
-
-res.status(201).json(session);
-
-}
-
-catch(error){
-
-res.status(500).json({
-
-message:error.message,
-
-});
-
-}
-
+    res.status(201).json(session);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 /* ===========================
    Get Reading Sessions
 =========================== */
 
-const getReadingSessions =
-async(req,res)=>{
+const getReadingSessions = async (req, res) => {
+  try {
+    const sessions = await ReadingSession.find({
+      userId: req.user._id,
+    })
 
-try{
+      .populate(
+        "book",
 
-const sessions =
-await ReadingSession.find({
+        "title author coverImage totalPages",
+      )
 
-userId:req.user._id,
+      .sort({
+        date: -1,
+      });
 
-})
-
-.populate(
-
-"book",
-
-"title author coverImage totalPages"
-
-)
-
-.sort({
-
-date:-1,
-
-});
-
-res.json(sessions);
-
-}
-
-catch(error){
-
-res.status(500).json({
-
-message:error.message,
-
-});
-
-}
-
+    res.json(sessions);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
 /* ===========================
    Delete
 =========================== */
 
-const deleteReadingSession =
-async(req,res)=>{
+const deleteReadingSession = async (req, res) => {
+  try {
+    const session = await ReadingSession.findOne({
+      _id: req.params.id,
 
-try{
+      userId: req.user._id,
+    });
 
-const session =
-await ReadingSession.findOne({
+    if (!session) {
+      return res.status(404).json({
+        message: "Session not found",
+      });
+    }
 
-_id:req.params.id,
+    await session.deleteOne();
 
-userId:req.user._id,
-
-});
-
-if(!session){
-
-return res.status(404).json({
-
-message:"Session not found",
-
-});
-
-}
-
-await session.deleteOne();
-
-res.json({
-
-message:"Deleted",
-
-});
-
-}
-
-catch(error){
-
-res.status(500).json({
-
-message:error.message,
-
-});
-
-}
-
+    res.json({
+      message: "Deleted",
+    });
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
 };
 
-module.exports={
+// Update Reading Session
 
-addReadingSession,
+const updateReadingSession = async (req, res) => {
+  try {
+    const session = await ReadingSession.findOne({
+      _id: req.params.id,
 
-getReadingSessions,
+      userId: req.user._id,
+    });
 
-deleteReadingSession,
+    if (!session) {
+      return res.status(404).json({
+        message: "Session not found",
+      });
+    }
 
+    session.date = req.body.date ?? session.date;
+
+    session.startPage = req.body.startPage ?? session.startPage;
+
+    session.endPage = req.body.endPage ?? session.endPage;
+
+    session.minutesRead = req.body.minutesRead ?? session.minutesRead;
+
+    session.mood = req.body.mood ?? session.mood;
+
+    session.notes = req.body.notes ?? session.notes;
+
+    session.pagesRead = Number(session.endPage) - Number(session.startPage);
+
+    await session.save();
+
+    await Book.findByIdAndUpdate(
+      session.book,
+
+      {
+        currentPage: session.endPage,
+      },
+    );
+
+    res.json(session);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
+
+module.exports = {
+  addReadingSession,
+
+  getReadingSessions,
+
+  updateReadingSession,
+
+  deleteReadingSession,
 };

@@ -1,4 +1,4 @@
-.heatmap-card {
+/* .heatmap-card {
   background: #ffffff;
   border-radius: 18px;
   padding: 25px;
@@ -15,7 +15,7 @@
 
 /* ===========================
    GitHub Layout
-=========================== */
+=========================== 
 
 .heatmap-wrapper {
   display: flex;
@@ -68,7 +68,7 @@
 
 /* ===========================
    Heatmap Grid
-=========================== */
+=========================== 
 
 .heatmap-grid {
   display: grid;
@@ -93,7 +93,7 @@
 
 /* ===========================
    Legend
-=========================== */
+=========================== 
 
 .heatmap-legend {
   display: flex;
@@ -115,7 +115,7 @@
   border-radius: 4px;
 }
 
-/* Scrollbar */
+/* Scrollbar 
 
 .heatmap-wrapper::-webkit-scrollbar {
   height: 8px;
@@ -132,7 +132,7 @@
 
 /* ===========================
    Tablet
-=========================== */
+=========================== 
 
 @media (max-width: 768px) {
 
@@ -166,9 +166,9 @@
   }
 }
 
-/* ===========================
+ ===========================
    Mobile
-=========================== */
+=========================== 
 
 @media (max-width: 480px) {
 
@@ -203,4 +203,4 @@
   .day-labels span {
     font-size: 10px;
   }
-}
+} */

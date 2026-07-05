@@ -1,43 +1,22 @@
-const express =
-require("express");
+const express = require("express");
 
-const router =
-express.Router();
+const router = express.Router();
 
-const{
+const {
+  addReadingSession,
+  getReadingSessions,
+  updateReadingSession,
+  deleteReadingSession,
+} = require("../controllers/trackerController");
 
-addReadingSession,
-
-getReadingSessions,
-
-deleteReadingSession,
-
-}=require(
-"../controllers/trackerController"
-);
-
-const{
-protect,
-}=require(
-"../middleware/authMiddleware"
-);
+const protect = require("../middleware/authMiddleware");
 
 router.use(protect);
 
-router.get(
-"/",
-getReadingSessions
-);
+router.get("/", getReadingSessions);
 
-router.post(
-"/",
-addReadingSession
-);
+router.post("/", addReadingSession);
+router.put("/:id", updateReadingSession);
+router.delete("/:id", deleteReadingSession);
 
-router.delete(
-"/:id",
-deleteReadingSession
-);
-
-module.exports=
-router;
+module.exports = router;

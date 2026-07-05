@@ -1,0 +1,170 @@
+/* ===========================
+   Tracker Charts Layout
+=========================== */
+
+.tracker-charts {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(420px, 1fr));
+  gap: 25px;
+  margin-top: 35px;
+}
+
+/* ===========================
+   Chart Card
+=========================== */
+
+.tracker-chart-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 25px;
+  box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+}
+
+.tracker-chart-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.12);
+}
+
+.tracker-chart-card h2 {
+  margin-bottom: 20px;
+  color: #1f2937;
+  font-size: 1.3rem;
+  font-weight: 700;
+}
+
+/* ===========================
+   Full Width Cards
+=========================== */
+
+.tracker-chart-full {
+  grid-column: 1 / -1;
+}
+
+/* ===========================
+   Empty State
+=========================== */
+
+.empty-chart {
+  height: 320px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #9ca3af;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ===========================
+   Recharts
+=========================== */
+
+.recharts-wrapper {
+  font-size: 13px;
+}
+
+.recharts-tooltip-wrapper {
+  outline: none;
+}
+
+.recharts-default-tooltip {
+  border-radius: 10px !important;
+  border: none !important;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12) !important;
+}
+
+.recharts-legend-item-text {
+  color: #374151 !important;
+}
+
+/* ===========================
+   Large Tablets
+=========================== */
+
+@media (max-width: 1024px) {
+
+  .tracker-charts {
+    grid-template-columns: 1fr;
+  }
+
+  .tracker-chart-full {
+    grid-column: auto;
+  }
+
+}
+
+/* ===========================
+   Tablets
+=========================== */
+
+@media (max-width: 768px) {
+
+  .tracker-charts {
+    gap: 20px;
+  }
+
+  .tracker-chart-card {
+    padding: 20px;
+  }
+
+  .tracker-chart-card h2 {
+    text-align: center;
+    font-size: 1.15rem;
+  }
+
+  .empty-chart {
+    height: 260px;
+  }
+
+}
+
+/* ===========================
+   Mobile
+=========================== */
+
+@media (max-width: 480px) {
+
+  .tracker-charts {
+    margin-top: 20px;
+    gap: 16px;
+    grid-template-columns: 1fr;
+  }
+
+  .tracker-chart-card {
+    padding: 15px;
+    border-radius: 14px;
+  }
+
+  .tracker-chart-card h2 {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    text-align: center;
+  }
+
+  .empty-chart {
+    height: 220px;
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .recharts-wrapper {
+    font-size: 11px;
+  }
+
+}
+
+/* ===========================
+   Small Mobile
+=========================== */
+
+@media (max-width: 360px) {
+
+  .tracker-chart-card {
+    padding: 12px;
+  }
+
+  .tracker-chart-card h2 {
+    font-size: 0.95rem;
+  }
+
+}

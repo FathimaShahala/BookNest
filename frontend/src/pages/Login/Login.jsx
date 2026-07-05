@@ -1,158 +1,128 @@
-import {
-  useState
-} from "react";
+import { useState } from "react";
 
-import {
-  useNavigate,
-  Link
-} from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 
-import {
-  loginUser
-} from "../../services/authService";
+import { FaEye, FaEyeSlash } from "react-icons/fa";
 
-import {
-  useAuth
-} from "../../context/AuthContext";
+import { loginUser } from "../../services/authService";
+
+import { useAuth } from "../../context/AuthContext";
 
 import toast from "react-hot-toast";
 
 import "./Login.css";
 
 function Login() {
+  const navigate = useNavigate();
 
-  const navigate =
-    useNavigate();
+  const { setUser } = useAuth();
 
-  const { setUser } =
-    useAuth();
+  const [showPassword, setShowPassword] = useState(false);
 
-  const [
-    formData,
-    setFormData
-  ] = useState({
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
 
-  const handleChange =
-    (e) => {
+  const handleChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-      setFormData({
-        ...formData,
-        [e.target.name]:
-          e.target.value,
-      });
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit =
-    async (e) => {
+    try {
+      const data = await loginUser(formData);
 
-      e.preventDefault();
+      localStorage.setItem(
+        "user",
+        JSON.stringify(data)
+      );
 
-      try {
+      setUser(data);
 
-        const data =
-          await loginUser(
-            formData
-          );
+      toast.success("Welcome Back!");
 
-        localStorage.setItem(
-          "user",
-          JSON.stringify(data)
-        );
-
-        setUser(data);
-
-        toast.success(
-          "Welcome Back!"
-        );
-
-        navigate(
-          "/dashboard"
-        );
-
-      } catch (error) {
-
-        toast.error(
-          "Invalid Email or Password"
-        );
-      }
-    };
+      navigate("/dashboard");
+    } catch (error) {
+      toast.error("Invalid Email or Password");
+    }
+  };
 
   return (
     <div className="login-page">
-
       <div className="login-card">
-
         <div className="login-header">
-
-          <h1>
-            📚 BookNest
-          </h1>
+          <h1>📚 BookNest</h1>
 
           <p>
-            Welcome back to your
-            reading journey
+            Welcome back to your reading
+            journey
           </p>
-
         </div>
 
         <form
           className="login-form"
-          onSubmit={
-            handleSubmit
-          }
+          onSubmit={handleSubmit}
         >
-
           <input
             type="email"
             name="email"
             placeholder="Email Address"
-            value={
-              formData.email
-            }
-            onChange={
-              handleChange
-            }
+            value={formData.email}
+            onChange={handleChange}
             required
           />
 
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={
-              formData.password
-            }
-            onChange={
-              handleChange
-            }
-            required
-          />
+          {/* Password */}
 
-          <button
-            type="submit"
-          >
+          <div className="password-field">
+            <input
+              type={
+                showPassword
+                  ? "text"
+                  : "password"
+              }
+              name="password"
+              placeholder="Password"
+              value={formData.password}
+              onChange={handleChange}
+              required
+            />
+
+            <button
+              type="button"
+              className="toggle-password"
+              onClick={() =>
+                setShowPassword(
+                  !showPassword
+                )
+              }
+            >
+              {showPassword ? (
+                <FaEye />
+              ) : (
+                <FaEyeSlash />
+              )}
+            </button>
+          </div>
+
+          <button type="submit">
             Login
           </button>
-
         </form>
 
         <p className="register-link">
-
           Don't have an account?
 
-          <Link
-            to="/register"
-          >
+          <Link to="/register">
             Register
           </Link>
-
         </p>
-
       </div>
-
     </div>
   );
 }

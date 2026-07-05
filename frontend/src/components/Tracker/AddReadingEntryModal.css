@@ -103,6 +103,21 @@
   color: #6b7280;
 }
 
+.no-books{
+  padding:12px;
+  text-align:center;
+  color:#777;
+  font-size:.9rem;
+}
+
+.book-option strong{
+  display:block;
+}
+
+.book-option small{
+  color:#666;
+}
+
 .empty-book {
   padding: 15px;
 

@@ -1,69 +1,43 @@
-import { FaEdit, FaTrash, FaFilter, FaCalendarAlt } from "react-icons/fa";
+import {
+  FaEdit,
+  FaTrash,
+  FaFilter,
+  FaCalendarAlt,
+} from "react-icons/fa";
+
+import { useAuth } from "../../context/AuthContext";
+
+import {
+  deleteReadingSession,
+} from "../../services/trackerService";
 
 import "./ReadingEntryTable.css";
 
-function ReadingEntryTable() {
-  const entries = [
-    {
-      id: 1,
-      date: "May 18, 2025",
-      cover: "https://covers.openlibrary.org/b/id/10521270-L.jpg",
-      title: "Atomic Habits",
-      author: "James Clear",
-      pagesRead: 32,
-      totalPages: 320,
-      time: "45m",
-      notes: "Great insights on habit building!",
-    },
+function ReadingEntryTable({
+  sessions,
+  onRefresh,
+  onEdit,
+}) {
+  const { user } = useAuth();
 
-    {
-      id: 2,
-      date: "May 17, 2025",
-      cover: "https://covers.openlibrary.org/b/id/8226191-L.jpg",
-      title: "The Alchemist",
-      author: "Paulo Coelho",
-      pagesRead: 25,
-      totalPages: 208,
-      time: "30m",
-      notes: "The journey is the destination.",
-    },
+  const handleDelete = async (id) => {
+    const confirmDelete = window.confirm(
+      "Are you sure you want to delete this reading session?"
+    );
 
-    {
-      id: 3,
-      date: "May 16, 2025",
-      cover: "https://covers.openlibrary.org/b/id/11153227-L.jpg",
-      title: "Deep Work",
-      author: "Cal Newport",
-      pagesRead: 40,
-      totalPages: 296,
-      time: "50m",
-      notes: "Focus is a superpower.",
-    },
+    if (!confirmDelete) return;
 
-    {
-      id: 4,
-      date: "May 15, 2025",
-      cover: "https://covers.openlibrary.org/b/id/10452538-L.jpg",
-      title: "Ikigai",
-      author: "Héctor García",
-      pagesRead: 20,
-      totalPages: 176,
-      time: "25m",
-      notes: "Beautiful book on purpose.",
-    },
+    try {
+      await deleteReadingSession(
+        id,
+        user.token
+      );
 
-    {
-      id: 5,
-      date: "May 14, 2025",
-      cover: "https://covers.openlibrary.org/b/id/10594765-L.jpg",
-      title: "The 5 AM Club",
-      author: "Robin Sharma",
-      pagesRead: 30,
-      totalPages: 256,
-      time: "35m",
-      notes: "Own your morning.",
-    },
-  ];
+      onRefresh();
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="tracker-table-card">
@@ -73,7 +47,7 @@ function ReadingEntryTable() {
         <div className="tracker-table-actions">
           <button>
             <FaCalendarAlt />
-            May 2025
+            This Month
           </button>
 
           <button>
@@ -88,74 +62,144 @@ function ReadingEntryTable() {
           <thead>
             <tr>
               <th>Date</th>
-
               <th>Book</th>
-
               <th>Pages Read</th>
-
               <th>Total Pages</th>
-
               <th>Reading Time</th>
-
+              <th>Mood</th>
               <th>Notes</th>
-
-              <th>Action</th>
+              <th>Actions</th>
             </tr>
           </thead>
 
           <tbody>
-            {entries.map((entry) => (
-              <tr key={entry.id}>
-                <td>{entry.date}</td>
-
-                <td>
-                  <div className="book-cell">
-                    <img src={entry.cover} alt={entry.title} />
-
-                    <div>
-                      <h4>{entry.title}</h4>
-
-                      <p>{entry.author}</p>
-                    </div>
-                  </div>
-                </td>
-
-                <td>{entry.pagesRead}</td>
-
-                <td>{entry.totalPages}</td>
-
-                <td>{entry.time}</td>
-
-                <td>{entry.notes}</td>
-
-                <td>
-                  <div className="table-actions">
-                    <button className="edit-btn">
-                      <FaEdit />
-                    </button>
-
-                    <button className="delete-btn">
-                      <FaTrash />
-                    </button>
-                  </div>
+            {sessions.length === 0 ? (
+              <tr>
+                <td
+                  colSpan="8"
+                  className="empty-table"
+                >
+                  No reading sessions found.
                 </td>
               </tr>
-            ))}
+            ) : (
+              sessions.map((entry) => (
+                <tr key={entry._id}>
+                  <td>
+                    {new Date(
+                      entry.date
+                    ).toLocaleDateString()}
+                  </td>
+
+                  <td>
+                    <div className="book-cell">
+                      <img
+                        src={
+                          entry.book?.coverImage ||
+                          "/book-placeholder.png"
+                        }
+                        alt={
+                          entry.book?.title
+                        }
+                      />
+
+                      <div>
+                        <h4>
+                          {entry.book?.title}
+                        </h4>
+
+                        <p>
+                          {
+                            entry.book
+                              ?.author
+                          }
+                        </p>
+                      </div>
+                    </div>
+                  </td>
+
+                  <td>
+                    {entry.pagesRead}
+                  </td>
+
+                  <td>
+                    {
+                      entry.book
+                        ?.totalPages
+                    }
+                  </td>
+
+                  <td>
+                    {entry.minutesRead} min
+                  </td>
+
+                  <td
+                    style={{
+                      fontSize: "20px",
+                    }}
+                  >
+                    {entry.mood}
+                  </td>
+
+                  <td>
+                    {entry.notes ||
+                      "-"}
+                  </td>
+
+                  <td>
+                    <div className="table-actions">
+                     <button
+
+className="edit-btn"
+
+title="Edit"
+
+onClick={() =>
+
+onEdit(entry)
+
+}
+
+>
+
+<FaEdit/>
+
+</button>
+
+                      <button
+                        className="delete-btn"
+                        title="Delete"
+                        onClick={() =>
+                          handleDelete(
+                            entry._id
+                          )
+                        }
+                      >
+                        <FaTrash />
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
       <div className="tracker-pagination">
-        <p>Showing 1 to 5 of 28 entries</p>
+        <p>
+          Total Sessions :{" "}
+          <strong>
+            {sessions.length}
+          </strong>
+        </p>
 
         <div>
           <button>{"<"}</button>
 
-          <button className="active">1</button>
-
-          <button>2</button>
-
-          <button>3</button>
+          <button className="active">
+            1
+          </button>
 
           <button>{">"}</button>
         </div>

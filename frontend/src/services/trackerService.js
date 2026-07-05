@@ -1,7 +1,6 @@
 import axios from "axios";
 
-const API_URL =
-  `${import.meta.env.VITE_API_URL}/tracker`;
+const API_URL = `${import.meta.env.VITE_API_URL}/tracker`;
 
 const getConfig = (token) => ({
   headers: {
@@ -13,59 +12,54 @@ const getConfig = (token) => ({
    Get All Reading Sessions
 =========================== */
 
-export const getReadingSessions =
-  async (token) => {
+export const getReadingSessions = async (token) => {
+  const response = await axios.get(API_URL, getConfig(token));
 
-    const response =
-      await axios.get(
-        API_URL,
-        getConfig(token)
-      );
-
-    return response.data;
-
-  };
+  return response.data;
+};
 
 /* ===========================
    Add Reading Session
 =========================== */
 
-export const addReadingSession =
-  async (
-    session,
-    token
-  ) => {
+export const addReadingSession = async (session, token) => {
+  const response = await axios.post(API_URL, session, getConfig(token));
 
-    const response =
-      await axios.post(
-        API_URL,
-        session,
-        getConfig(token)
-      );
+  return response.data;
+};
 
-    return response.data;
+/* ===========================
+   Update Reading Session
+=========================== */
 
-  };
+export const updateReadingSession = async (
+  id,
+
+  data,
+
+  token,
+) => {
+  const response = await axios.put(
+    `${API_URL}/${id}`,
+
+    data,
+
+    getConfig(token),
+  );
+
+  return response.data;
+};
 
 /* ===========================
    Delete Reading Session
 =========================== */
 
-export const deleteReadingSession =
-  async (
-    id,
-    token
-  ) => {
+export const deleteReadingSession = async (id, token) => {
+  const response = await axios.delete(
+    `${API_URL}/${id}`,
 
-    const response =
-      await axios.delete(
+    getConfig(token),
+  );
 
-        `${API_URL}/${id}`,
-
-        getConfig(token)
-
-      );
-
-    return response.data;
-
-  };
+  return response.data;
+};

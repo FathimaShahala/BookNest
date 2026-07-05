@@ -24,8 +24,8 @@ const addReadingSession = async (req, res) => {
       notes,
     } = req.body;
 
-    const pagesRead = Number(endPage) - Number(startPage);
-
+const pagesRead =
+  Number(endPage) - Number(startPage) + 1;
     const session = await ReadingSession.create({
       userId: req.user._id,
 

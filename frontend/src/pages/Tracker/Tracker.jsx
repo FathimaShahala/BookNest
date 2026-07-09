@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import { useAuth } from "../../context/AuthContext";
 import DashboardLayout from "../../layouts/DashboardLayout";
 
 import TrackerHeader from "../../components/Tracker/TrackerHeader";
@@ -13,6 +13,8 @@ import TrackerCharts from "../../components/Tracker/TrackerCharts";
 import "./Tracker.css";
 
 function Tracker() {
+  const { user } = useAuth();
+
   const [sessions, setSessions] = useState([]);
 
   const [stats, setStats] = useState({
@@ -36,6 +38,7 @@ function Tracker() {
   const loadTracker = async () => {
     try {
       const data = await getReadingSessions(user.token);
+console.log("Tracker Data:", data);
 
       setSessions(data);
 
@@ -209,9 +212,11 @@ function Tracker() {
   return (
     <DashboardLayout>
       <div className="tracker-page">
+
         <TrackerHeader onAdd={() => setOpenModal(true)} />
+        
         <TrackerStats stats={stats} />
-        <div className="tracker-search">
+        {/* <div className="tracker-search">
           <input
             type="text"
             placeholder="🔍 Search by book, author or notes..."
@@ -268,8 +273,8 @@ function Tracker() {
 
               <option value="minutes">Most Reading Time</option>
             </select>
-          </div>
-        </div>
+          </div> 
+        </div>*/}
         <div className="summary-grid">
           <div className="summary-card">
             <span>📚</span>
@@ -319,6 +324,7 @@ function Tracker() {
             <p>Avg Minutes</p>
           </div>
         </div>
+        
         <ReadingEntryTable
           sessions={filteredSessions}
           onRefresh={loadTracker}
@@ -328,6 +334,7 @@ function Tracker() {
             setOpenModal(true);
           }}
         />{" "}
+        
         <TrackerCharts
     sessions={filteredSessions}
 />

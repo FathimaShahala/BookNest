@@ -17,7 +17,6 @@ const readingSessionSchema = new mongoose.Schema(
     date: {
       type: Date,
       default: Date.now,
-      required: true,
     },
 
     startPage: {
@@ -32,7 +31,7 @@ const readingSessionSchema = new mongoose.Schema(
 
     pagesRead: {
       type: Number,
-      required: true,
+      default: 0,
     },
 
     minutesRead: {
@@ -42,13 +41,6 @@ const readingSessionSchema = new mongoose.Schema(
 
     mood: {
       type: String,
-      enum: [
-        "😊",
-        "😍",
-        "🤩",
-        "😌",
-        "😴",
-      ],
       default: "😊",
     },
 

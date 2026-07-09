@@ -1,13 +1,7 @@
 .tracker-modal-overlay {
   position: fixed;
 
-  top: 0;
-
-  left: 0;
-
-  width: 100%;
-
-  height: 100%;
+  inset: 0;
 
   background: rgba(0, 0, 0, 0.45);
 
@@ -17,11 +11,12 @@
 
   align-items: center;
 
+  padding: 20px;
+
   z-index: 999;
 
-  padding: 20px;
+  overflow-y: auto;
 }
-
 .tracker-modal {
   width: 100%;
 
@@ -33,8 +28,25 @@
 
   padding: 30px;
 
+  max-height: 90vh;
+
+  overflow-y: auto;
+
   animation: popup 0.3s ease;
 }
+.tracker-modal::-webkit-scrollbar {
+  width: 6px;
+}
+
+.tracker-modal::-webkit-scrollbar-thumb {
+  background: #bdbdbd;
+  border-radius: 20px;
+}
+
+.tracker-modal::-webkit-scrollbar-track {
+  background: transparent;
+}
+
 .book-search {
   position: relative;
 }
@@ -103,19 +115,19 @@
   color: #6b7280;
 }
 
-.no-books{
-  padding:12px;
-  text-align:center;
-  color:#777;
-  font-size:.9rem;
+.no-books {
+  padding: 12px;
+  text-align: center;
+  color: #777;
+  font-size: 0.9rem;
 }
 
-.book-option strong{
-  display:block;
+.book-option strong {
+  display: block;
 }
 
-.book-option small{
-  color:#666;
+.book-option small {
+  color: #666;
 }
 
 .empty-book {
@@ -238,11 +250,76 @@ textarea {
 }
 
 @media (max-width: 768px) {
-  .tracker-form-grid {
-    grid-template-columns: 1fr;
+
+  .tracker-modal-overlay {
+    align-items: flex-start;
+
+    padding: 15px;
   }
 
   .tracker-modal {
+    margin: 20px 0;
+
+    width: 100%;
+
+    max-width: 100%;
+
+    max-height: calc(100vh - 40px);
+
     padding: 20px;
+
+    border-radius: 16px;
+  }
+
+  .tracker-form-grid {
+    grid-template-columns: 1fr;
+
+    gap: 15px;
+  }
+
+  .tracker-modal-footer {
+    flex-direction: column;
+  }
+
+  .tracker-modal-footer button {
+    width: 100%;
+  }
+}
+@media (max-width: 480px) {
+
+  .tracker-modal-overlay {
+    padding: 10px;
+  }
+
+  .tracker-modal {
+    margin: 10px 0;
+
+    padding: 16px;
+
+    max-height: calc(100vh - 20px);
+
+    border-radius: 12px;
+  }
+
+  .tracker-modal-header h2 {
+    font-size: 20px;
+  }
+
+  input,
+  select,
+  textarea {
+    font-size: 14px;
+
+    padding: 10px;
+  }
+
+  label {
+    font-size: 14px;
+  }
+
+  .save-btn,
+  .cancel-btn {
+    padding: 12px;
+    font-size: 14px;
   }
 }

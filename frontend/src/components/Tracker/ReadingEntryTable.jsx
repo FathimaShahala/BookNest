@@ -1,37 +1,23 @@
-import {
-  FaEdit,
-  FaTrash,
-  FaFilter,
-  FaCalendarAlt,
-} from "react-icons/fa";
+import { FaEdit, FaTrash, FaFilter, FaCalendarAlt } from "react-icons/fa";
 
 import { useAuth } from "../../context/AuthContext";
 
-import {
-  deleteReadingSession,
-} from "../../services/trackerService";
+import { deleteReadingSession } from "../../services/trackerService";
 
 import "./ReadingEntryTable.css";
 
-function ReadingEntryTable({
-  sessions,
-  onRefresh,
-  onEdit,
-}) {
+function ReadingEntryTable({ sessions, onRefresh, onEdit }) {
   const { user } = useAuth();
 
   const handleDelete = async (id) => {
     const confirmDelete = window.confirm(
-      "Are you sure you want to delete this reading session?"
+      "Are you sure you want to delete this reading session?",
     );
 
     if (!confirmDelete) return;
 
     try {
-      await deleteReadingSession(
-        id,
-        user.token
-      );
+      await deleteReadingSession(id, user.token);
 
       onRefresh();
     } catch (error) {
@@ -75,63 +61,35 @@ function ReadingEntryTable({
           <tbody>
             {sessions.length === 0 ? (
               <tr>
-                <td
-                  colSpan="8"
-                  className="empty-table"
-                >
+                <td colSpan="8" className="empty-table">
                   No reading sessions found.
                 </td>
               </tr>
             ) : (
               sessions.map((entry) => (
                 <tr key={entry._id}>
-                  <td>
-                    {new Date(
-                      entry.date
-                    ).toLocaleDateString()}
-                  </td>
+                  <td>{new Date(entry.date).toLocaleDateString()}</td>
 
                   <td>
                     <div className="book-cell">
                       <img
-                        src={
-                          entry.book?.coverImage ||
-                          "/book-placeholder.png"
-                        }
-                        alt={
-                          entry.book?.title
-                        }
+                        src={entry.book?.coverImage || "/book-placeholder.png"}
+                        alt={entry.book?.title}
                       />
 
                       <div>
-                        <h4>
-                          {entry.book?.title}
-                        </h4>
+                        <h4>{entry.book?.title}</h4>
 
-                        <p>
-                          {
-                            entry.book
-                              ?.author
-                          }
-                        </p>
+                        <p>{entry.book?.author}</p>
                       </div>
                     </div>
                   </td>
 
-                  <td>
-                    {entry.pagesRead}
-                  </td>
+                  <td>{entry.pagesRead}</td>
 
-                  <td>
-                    {
-                      entry.book
-                        ?.totalPages
-                    }
-                  </td>
+                  <td>{entry.book?.totalPages}</td>
 
-                  <td>
-                    {entry.minutesRead} min
-                  </td>
+                  <td>{entry.minutesRead} min</td>
 
                   <td
                     style={{
@@ -141,39 +99,22 @@ function ReadingEntryTable({
                     {entry.mood}
                   </td>
 
-                  <td>
-                    {entry.notes ||
-                      "-"}
-                  </td>
+                  <td>{entry.notes || "-"}</td>
 
                   <td>
                     <div className="table-actions">
-                     <button
-
-className="edit-btn"
-
-title="Edit"
-
-onClick={() =>
-
-onEdit(entry)
-
-}
-
->
-
-<FaEdit/>
-
-</button>
+                      <button
+                        className="edit-btn"
+                        title="Edit"
+                        onClick={() => onEdit(entry)}
+                      >
+                        <FaEdit />
+                      </button>
 
                       <button
                         className="delete-btn"
                         title="Delete"
-                        onClick={() =>
-                          handleDelete(
-                            entry._id
-                          )
-                        }
+                        onClick={() => handleDelete(entry._id)}
                       >
                         <FaTrash />
                       </button>
@@ -188,18 +129,13 @@ onEdit(entry)
 
       <div className="tracker-pagination">
         <p>
-          Total Sessions :{" "}
-          <strong>
-            {sessions.length}
-          </strong>
+          Total Sessions : <strong>{sessions.length}</strong>
         </p>
 
         <div>
           <button>{"<"}</button>
 
-          <button className="active">
-            1
-          </button>
+          <button className="active">1</button>
 
           <button>{">"}</button>
         </div>

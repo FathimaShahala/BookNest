@@ -77,12 +77,11 @@ function AddReadingEntryModal({
     });
   };
 
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-     console.log("User:", user);
-  console.log("Token:", user?.token);
-  console.log("Submitting form:", form);
+    console.log("User:", user);
+    console.log("Token:", user?.token);
+    console.log("Submitting form:", form);
     if (!form.book) {
       toast.error("Please select a book.");
       return;
@@ -121,8 +120,8 @@ function AddReadingEntryModal({
       onClose();
     } catch (error) {
       console.log("Status:", error.response?.status);
-  console.log("Data:", error.response?.data);
-  console.log("Error:", error);
+      console.log("Data:", error.response?.data);
+      console.log("Error:", error);
 
       toast.error("Something went wrong.");
     } finally {

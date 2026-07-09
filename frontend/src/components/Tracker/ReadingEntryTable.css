@@ -1,259 +1,421 @@
-.tracker-table-card{
+.tracker-table-card {
+  background: #fff;
 
-background:#fff;
+  border-radius: 20px;
 
-border-radius:20px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.06);
 
-box-shadow:0 8px 20px rgba(0,0,0,.06);
+  overflow: hidden;
+}
 
-overflow:hidden;
+.tracker-table-header {
+  padding: 25px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  border-bottom: 1px solid #eee;
+
+  flex-wrap: wrap;
+
+  gap: 15px;
+}
+
+.tracker-table-header h2 {
+  margin: 0;
+
+  font-size: 28px;
+}
+
+.tracker-table-actions {
+  display: flex;
+
+  gap: 15px;
+}
+
+.tracker-table-actions button {
+  padding: 12px 18px;
+
+  border: 1px solid #ddd;
+
+  background: #fff;
+
+  border-radius: 10px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 8px;
+
+  cursor: pointer;
+}
+
+.tracker-table-wrapper {
+  overflow-x: auto;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+
+  min-width: 1100px;
+}
+
+thead {
+  background: #fafafa;
+}
+
+th {
+  padding: 18px;
+
+  text-align: left;
+
+  font-weight: 600;
+
+  color: #6b7280;
+}
+
+td {
+  padding: 18px;
+
+  border-top: 1px solid #f2f2f2;
+
+  vertical-align: middle;
+}
+
+.book-cell {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.book-cell img {
+  width: 55px;
+
+  height: 75px;
+
+  border-radius: 8px;
+
+  object-fit: cover;
+}
+
+.book-cell h4 {
+  margin: 0;
+
+  font-size: 16px;
+}
+
+.book-cell p {
+  margin-top: 6px;
+
+  color: #6b7280;
+
+  font-size: 14px;
+}
+
+.table-actions {
+  display: flex;
+
+  gap: 10px;
+}
+
+.edit-btn {
+  width: 38px;
+
+  height: 38px;
+
+  border: none;
+
+  background: #eef2ff;
+
+  color: #4f46e5;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.delete-btn {
+  width: 38px;
+
+  height: 38px;
+
+  border: none;
+
+  background: #fee2e2;
+
+  color: #dc2626;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+}
+
+.tracker-pagination {
+  padding: 20px 25px;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: center;
+
+  flex-wrap: wrap;
+
+  gap: 15px;
+}
+
+.tracker-pagination div {
+  display: flex;
+
+  gap: 10px;
+}
+
+.tracker-pagination button {
+  width: 40px;
+
+  height: 40px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #f3f4f6;
+
+  cursor: pointer;
+}
+
+.tracker-pagination .active {
+  background: #4f46e5;
+
+  color: #fff;
+}
+
+/* ===========================
+   Tablet
+=========================== */
+
+@media (max-width: 992px) {
+
+  .tracker-table-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .tracker-table-actions {
+    width: 100%;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+  }
+
+  .tracker-table-wrapper {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 950px;
+  }
 
 }
 
-.tracker-table-header{
+/* ===========================
+   Mobile
+=========================== */
 
-padding:25px;
+@media (max-width: 768px) {
 
-display:flex;
+  .tracker-table-card {
+    border-radius: 16px;
+  }
 
-justify-content:space-between;
+  .tracker-table-header {
+    padding: 18px;
+  }
 
-align-items:center;
+  .tracker-table-header h2 {
+    font-size: 22px;
+  }
 
-border-bottom:1px solid #eee;
+  .tracker-table-actions {
+    width: 100%;
+    gap: 10px;
+  }
 
-flex-wrap:wrap;
+  .tracker-table-actions button {
+    flex: 1;
+    justify-content: center;
+    padding: 10px;
+    font-size: 14px;
+  }
 
-gap:15px;
+  .tracker-table-wrapper {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
 
-}
+  table {
+    min-width: 900px;
+  }
 
-.tracker-table-header h2{
+  th,
+  td {
+    padding: 14px;
+    font-size: 14px;
+  }
 
-margin:0;
+  .book-cell img {
+    width: 45px;
+    height: 65px;
+  }
 
-font-size:28px;
+  .book-cell h4 {
+    font-size: 14px;
+  }
 
-}
+  .book-cell p {
+    font-size: 12px;
+  }
 
-.tracker-table-actions{
+  .edit-btn,
+  .delete-btn {
+    width: 34px;
+    height: 34px;
+  }
 
-display:flex;
-
-gap:15px;
-
-}
-
-.tracker-table-actions button{
-
-padding:12px 18px;
-
-border:1px solid #ddd;
-
-background:#fff;
-
-border-radius:10px;
-
-display:flex;
-
-align-items:center;
-
-gap:8px;
-
-cursor:pointer;
-
-}
-
-.tracker-table-wrapper{
-
-overflow-x:auto;
-
-}
-
-table{
-
-width:100%;
-
-border-collapse:collapse;
-
-min-width:1100px;
-
-}
-
-thead{
-
-background:#fafafa;
+  .tracker-pagination {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
 
 }
 
-th{
+/* ===========================
+   Small Mobile
+=========================== */
 
-padding:18px;
+@media (max-width: 480px) {
 
-text-align:left;
+  .tracker-table-card {
+    border-radius: 14px;
+  }
 
-font-weight:600;
+  .tracker-table-header {
+    padding: 15px;
+  }
 
-color:#6b7280;
+  .tracker-table-header h2 {
+    font-size: 20px;
+  }
 
-}
+  .tracker-table-actions {
+    flex-direction: column;
+    width: 100%;
+  }
 
-td{
+  .tracker-table-actions button {
+    width: 100%;
+    font-size: 13px;
+    padding: 10px;
+  }
 
-padding:18px;
+  table {
+    min-width: 820px;
+  }
 
-border-top:1px solid #f2f2f2;
+  th,
+  td {
+    padding: 12px;
+    font-size: 13px;
+  }
 
-vertical-align:middle;
+  .book-cell {
+    gap: 10px;
+  }
 
-}
+  .book-cell img {
+    width: 40px;
+    height: 58px;
+  }
 
-.book-cell{
+  .book-cell h4 {
+    font-size: 13px;
+  }
 
-display:flex;
+  .book-cell p {
+    font-size: 11px;
+  }
 
-align-items:center;
+  .edit-btn,
+  .delete-btn {
+    width: 32px;
+    height: 32px;
+    font-size: 13px;
+  }
 
-gap:15px;
+  .tracker-pagination {
+    padding: 15px;
+  }
 
-}
+  .tracker-pagination p {
+    font-size: 13px;
+    text-align: center;
+  }
 
-.book-cell img{
-
-width:55px;
-
-height:75px;
-
-border-radius:8px;
-
-object-fit:cover;
-
-}
-
-.book-cell h4{
-
-margin:0;
-
-font-size:16px;
-
-}
-
-.book-cell p{
-
-margin-top:6px;
-
-color:#6b7280;
-
-font-size:14px;
-
-}
-
-.table-actions{
-
-display:flex;
-
-gap:10px;
-
-}
-
-.edit-btn{
-
-width:38px;
-
-height:38px;
-
-border:none;
-
-background:#eef2ff;
-
-color:#4f46e5;
-
-border-radius:10px;
-
-cursor:pointer;
+  .tracker-pagination button {
+    width: 34px;
+    height: 34px;
+  }
 
 }
 
-.delete-btn{
+/* ===========================
+   Extra Small Phones
+=========================== */
 
-width:38px;
+@media (max-width: 360px) {
 
-height:38px;
+  .tracker-table-header h2 {
+    font-size: 18px;
+  }
 
-border:none;
+  .tracker-table-actions button {
+    font-size: 12px;
+    padding: 8px;
+  }
 
-background:#fee2e2;
+  table {
+    min-width: 780px;
+  }
 
-color:#dc2626;
+  th,
+  td {
+    padding: 10px;
+    font-size: 12px;
+  }
 
-border-radius:10px;
+  .book-cell img {
+    width: 36px;
+    height: 52px;
+  }
 
-cursor:pointer;
+  .book-cell h4 {
+    font-size: 12px;
+  }
 
-}
+  .book-cell p {
+    font-size: 10px;
+  }
 
-.tracker-pagination{
-
-padding:20px 25px;
-
-display:flex;
-
-justify-content:space-between;
-
-align-items:center;
-
-flex-wrap:wrap;
-
-gap:15px;
-
-}
-
-.tracker-pagination div{
-
-display:flex;
-
-gap:10px;
-
-}
-
-.tracker-pagination button{
-
-width:40px;
-
-height:40px;
-
-border:none;
-
-border-radius:10px;
-
-background:#f3f4f6;
-
-cursor:pointer;
-
-}
-
-.tracker-pagination .active{
-
-background:#4f46e5;
-
-color:#fff;
-
-}
-
-@media(max-width:768px){
-
-.tracker-table-header{
-
-flex-direction:column;
-
-align-items:flex-start;
-
-}
-
-.tracker-pagination{
-
-flex-direction:column;
-
-}
+  .tracker-pagination p {
+    font-size: 12px;
+  }
 
 }

@@ -10,58 +10,67 @@ const addReadingSession = async (req, res) => {
   try {
     const {
       book,
-
       date,
-
       startPage,
-
       endPage,
-
       minutesRead,
-
       mood,
-
       notes,
     } = req.body;
 
-const pagesRead =
-  Number(endPage) - Number(startPage) + 1;
+    const pagesRead =
+      Number(endPage) - Number(startPage) + 1;
+
     const session = await ReadingSession.create({
       userId: req.user._id,
 
-      book,
+      bookId: book,
 
       date,
 
-      startPage,
+      startPage: Number(startPage),
 
-      endPage,
+      endPage: Number(endPage),
 
       pagesRead,
 
-      minutesRead,
+      readingTime: Number(minutesRead),
 
       mood,
 
       notes,
     });
 
-    await Book.findByIdAndUpdate(
-      book,
+    await Book.findByIdAndUpdate(session.book, {
+      currentPage: endPage,
+    });
 
-      {
-        currentPage: endPage,
-      },
-    );
+    const populatedSession = await ReadingSession.findById(session._id)
+      .populate(
+        "bookId",
+        "title author coverImage totalPages genre"
+      );
 
-    res.status(201).json(session);
+    const result = populatedSession.toObject();
+
+    result.book = result.bookId;
+
+    delete result.bookId;
+
+    result.minutesRead = result.readingTime;
+
+    delete result.readingTime;
+
+    res.status(201).json(result);
+
   } catch (error) {
+    console.log(error);
+
     res.status(500).json({
       message: error.message,
     });
   }
 };
-
 /* ===========================
    Get Reading Sessions
 =========================== */
@@ -71,18 +80,26 @@ const getReadingSessions = async (req, res) => {
     const sessions = await ReadingSession.find({
       userId: req.user._id,
     })
-
       .populate(
-        "book",
-
-        "title author coverImage totalPages",
+        "bookId",
+        "title author coverImage totalPages genre"
       )
+      .sort({ date: -1 });
 
-      .sort({
-        date: -1,
-      });
+    const formatted = sessions.map((session) => {
+      const item = session.toObject();
 
-    res.json(sessions);
+      item.book = item.bookId;
+      delete item.bookId;
+
+      item.minutesRead = item.readingTime;
+      delete item.readingTime;
+
+      return item;
+    });
+console.log(JSON.stringify(sessions, null, 2));
+    res.json(formatted);
+
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -126,7 +143,6 @@ const updateReadingSession = async (req, res) => {
   try {
     const session = await ReadingSession.findOne({
       _id: req.params.id,
-
       userId: req.user._id,
     });
 
@@ -138,29 +154,46 @@ const updateReadingSession = async (req, res) => {
 
     session.date = req.body.date ?? session.date;
 
-    session.startPage = req.body.startPage ?? session.startPage;
+    session.startPage = Number(req.body.startPage ?? session.startPage);
 
-    session.endPage = req.body.endPage ?? session.endPage;
+    session.endPage = Number(req.body.endPage ?? session.endPage);
 
-    session.minutesRead = req.body.minutesRead ?? session.minutesRead;
+    session.readingTime = Number(
+      req.body.minutesRead ?? session.readingTime
+    );
 
     session.mood = req.body.mood ?? session.mood;
 
     session.notes = req.body.notes ?? session.notes;
 
-    session.pagesRead = Number(session.endPage) - Number(session.startPage);
+    session.pagesRead =
+      session.endPage - session.startPage + 1;
+
+    if (req.body.book) {
+      session.bookId = req.body.book;
+    }
 
     await session.save();
 
-    await Book.findByIdAndUpdate(
-      session.book,
+    await Book.findByIdAndUpdate(session.bookId, {
+      currentPage: session.endPage,
+    });
 
-      {
-        currentPage: session.endPage,
-      },
-    );
+    const updated = await ReadingSession.findById(session._id)
+      .populate(
+        "bookId",
+        "title author coverImage totalPages genre"
+      );
 
-    res.json(session);
+    const result = updated.toObject();
+
+    result.book = result.bookId;
+    delete result.bookId;
+
+    result.minutesRead = result.readingTime;
+    delete result.readingTime;
+
+    res.json(result);
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -170,10 +203,8 @@ const updateReadingSession = async (req, res) => {
 
 module.exports = {
   addReadingSession,
-
   getReadingSessions,
-
-  updateReadingSession,
-
   deleteReadingSession,
+    updateReadingSession,
+
 };

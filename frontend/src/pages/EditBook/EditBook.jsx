@@ -112,21 +112,20 @@ function EditBook() {
       e.preventDefault();
 
       try {
-        await updateBook(
-          id,
-          {
-            ...formData,
-            totalPages:
-              Number(
-                formData.totalPages
-              ),
-            currentPage:
-              Number(
-                formData.currentPage
-              ),
-          },
-          user.token
-        );
+        const {
+  rating,
+  ...bookData
+} = formData;
+
+await updateBook(
+  id,
+  {
+    ...bookData,
+    totalPages: Number(bookData.totalPages),
+    currentPage: Number(bookData.currentPage),
+  },
+  user.token
+);
 
         navigate(
           `/books/${id}`

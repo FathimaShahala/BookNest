@@ -42,6 +42,7 @@ function BookDetails() {
           id,
           user.token
         );
+    console.log("BOOK FROM API:", data);
 
       setBook(data);
     } catch (error) {
@@ -280,15 +281,6 @@ function BookDetails() {
                 <br />
                 {book.currentPage}
               </div>
-
-              <div>
-                <strong>
-                  Rating
-                </strong>
-                <br />
-                ⭐ {book.rating || 0}/5
-              </div>
-
             </div>
 
             <ProgressTracker

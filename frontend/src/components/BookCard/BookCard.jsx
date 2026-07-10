@@ -47,7 +47,7 @@ function BookCard({
         </small>
 
         <div className="actions">
-
+<div className="action_link">
           <Link
             to={`/books/${book._id}`}
             className="view-btn"
@@ -61,6 +61,7 @@ function BookCard({
           >
             Edit
           </Link>
+          </div>
 
           <button
             className="delete-btn"

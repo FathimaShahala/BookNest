@@ -21,7 +21,7 @@ const createBook = async (req, res) => {
       currentPage: req.body.currentPage || 0,
       readingStatus:
         req.body.readingStatus || "Want To Read",
-      rating: req.body.rating || 0,
+      rating: 0,
       notes: req.body.notes || [],
       userId: req.user._id,
       isFavorite:
@@ -117,11 +117,6 @@ const updateBook = async (req, res) => {
     book.readingStatus =
       req.body.readingStatus ??
       book.readingStatus;
-
-    book.rating =
-      req.body.rating ??
-      book.rating;
-
     book.notes =
       req.body.notes ??
       book.notes;

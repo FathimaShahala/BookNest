@@ -131,19 +131,7 @@ function Statistics() {
 
           </div>
 
-          <div className="stat-card">
-
-            <div className="stat-icon warning">
-              <FaStar />
-            </div>
-
-            <h3>Average Rating</h3>
-
-            <h2>
-              ⭐ {stats.averageRating || 0}
-            </h2>
-
-          </div>
+         
 
           <div className="stat-card">
 

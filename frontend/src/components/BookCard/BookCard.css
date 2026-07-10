@@ -64,15 +64,17 @@
 
 .actions {
   display: flex;
-  gap: 8px;
-  margin-top: auto;
+  gap: 18px;
+  margin-top: 10px;
+  padding: 0 16px 16px;
 }
+.action_link {padding: 10px;}
 
 .actions a,
 .actions button {
   flex: 1;
   border: none;
-  padding: 10px;
+  padding: 5px;
   border-radius: 8px;
   text-align: center;
   cursor: pointer;
@@ -85,6 +87,7 @@
 .view-btn {
   background: #2563eb;
   color: white;
+
 }
 
 .edit-btn {

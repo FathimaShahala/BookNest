@@ -127,12 +127,7 @@ function Dashboard() {
           }
         />
 
-        <StatsCard
-          title="Average Rating"
-          value={
-            stats.averageRating
-          }
-        />
+
 
       </div>
 

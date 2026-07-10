@@ -1,5 +1,39 @@
 const Review = require("../models/Review");
+const Book = require("../models/Book");
 
+
+
+// =============================
+// updateBookRating
+// =============================
+const updateBookRating = async (bookId) => {
+  const reviews = await Review.find({ bookId });
+
+  console.log("Reviews Found:", reviews.length);
+
+  let averageRating = 0;
+
+  if (reviews.length > 0) {
+    const total = reviews.reduce(
+      (sum, review) => sum + review.rating,
+      0
+    );
+
+    averageRating = Number(
+      (total / reviews.length).toFixed(1)
+    );
+  }
+
+  console.log("Average Rating:", averageRating);
+
+  const updatedBook = await Book.findByIdAndUpdate(
+    bookId,
+    { rating: averageRating },
+    { new: true }
+  );
+
+  console.log("Updated Book Rating:", updatedBook.rating);
+};
 // =============================
 // Create Review
 // =============================
@@ -45,6 +79,8 @@ const createReview = async (req, res) => {
       title,
       review,
     });
+
+    await updateBookRating(bookId);
 
     res.status(201).json(newReview);
 
@@ -122,6 +158,7 @@ const updateReview = async (req, res) => {
 
     const updatedReview =
       await review.save();
+await updateBookRating(review.bookId);
 
     res.json(updatedReview);
 
@@ -158,10 +195,13 @@ const deleteReview = async (req, res) => {
 
     await review.deleteOne();
 
+    await updateBookRating(review.bookId);
+
     res.json({
       message:
         "Review deleted successfully.",
     });
+    
 
   } catch (error) {
     res.status(500).json({
@@ -171,6 +211,7 @@ const deleteReview = async (req, res) => {
 };
 
 module.exports = {
+  updateBookRating,
   createReview,
   getBookReviews,
   updateReview,

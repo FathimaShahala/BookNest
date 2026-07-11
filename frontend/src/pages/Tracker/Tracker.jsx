@@ -35,43 +35,42 @@ function Tracker() {
     loadTracker();
   }, []);
 
-  const loadTracker = async () => {
-    try {
-      const data = await getReadingSessions(user.token);
-console.log("Tracker Data:", data);
+const loadTracker = async () => {
+  try {
+    console.log("Loading tracker...");
 
-      setSessions(data);
+    const data = await getReadingSessions(user.token);
 
-      const totalEntries = data.length;
+    console.log("Tracker Data:", data);
 
-      const totalPages = data.reduce(
-        (sum, item) => sum + item.pagesRead,
+    setSessions(data);
 
-        0,
-      );
+    const totalEntries = data.length;
 
-      const totalMinutes = data.reduce(
-        (sum, item) => sum + item.minutesRead,
+    const totalPages = data.reduce(
+      (sum, item) => sum + item.pagesRead,
+      0
+    );
 
-        0,
-      );
+    const totalMinutes = data.reduce(
+      (sum, item) => sum + item.minutesRead,
+      0
+    );
 
-      const dailyAverage =
-        totalEntries === 0 ? 0 : Math.round(totalPages / totalEntries);
+    const dailyAverage =
+      totalEntries === 0 ? 0 : Math.round(totalPages / totalEntries);
 
-      setStats({
-        totalEntries,
-
-        totalPages,
-
-        totalMinutes,
-
-        dailyAverage,
-      });
-    } catch (error) {
-      console.log(error);
-    }
-  };
+    setStats({
+      totalEntries,
+      totalPages,
+      totalMinutes,
+      dailyAverage,
+    });
+  } catch (error) {
+    console.log("Tracker Error:", error);
+    console.log(error.response?.data);
+  }
+};
 
   const years = [
     ...new Set(sessions.map((session) => new Date(session.date).getFullYear())),
@@ -212,9 +211,7 @@ console.log("Tracker Data:", data);
   return (
     <DashboardLayout>
       <div className="tracker-page">
-
         <TrackerHeader onAdd={() => setOpenModal(true)} />
-        
         <TrackerStats stats={stats} />
         {/* <div className="tracker-search">
           <input
@@ -324,7 +321,6 @@ console.log("Tracker Data:", data);
             <p>Avg Minutes</p>
           </div>
         </div>
-        
         <ReadingEntryTable
           sessions={filteredSessions}
           onRefresh={loadTracker}
@@ -334,10 +330,7 @@ console.log("Tracker Data:", data);
             setOpenModal(true);
           }}
         />{" "}
-        
-        <TrackerCharts
-    sessions={filteredSessions}
-/>
+        <TrackerCharts sessions={filteredSessions} />
       </div>
 
       <AddReadingEntryModal

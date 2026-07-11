@@ -73,32 +73,18 @@ console.log("SESSION CREATED:", session);
 /* ===========================
    Get Reading Sessions
 =========================== */
-
 const getReadingSessions = async (req, res) => {
   try {
     const sessions = await ReadingSession.find({
       userId: req.user._id,
     })
       .populate(
-        "bookId",
+        "book",
         "title author coverImage totalPages genre"
       )
       .sort({ date: -1 });
 
-    const formatted = sessions.map((session) => {
-      const item = session.toObject();
-
-      item.book = item.bookId;
-      delete item.bookId;
-
-      item.minutesRead = item.readingTime;
-      delete item.readingTime;
-
-      return item;
-    });
-
-    res.json(formatted);
-
+    res.json(sessions);
   } catch (error) {
     res.status(500).json({
       message: error.message,
@@ -152,21 +138,19 @@ const updateReadingSession = async (req, res) => {
     }
 
     session.date = req.body.date ?? session.date;
-
     session.startPage = Number(req.body.startPage ?? session.startPage);
-
     session.endPage = Number(req.body.endPage ?? session.endPage);
-
-    session.readingTime = Number(req.body.minutesRead ?? session.readingTime);
-
+    session.minutesRead = Number(
+      req.body.minutesRead ?? session.minutesRead
+    );
     session.mood = req.body.mood ?? session.mood;
-
     session.notes = req.body.notes ?? session.notes;
 
-    session.pagesRead = session.endPage - session.startPage + 1;
+    session.pagesRead =
+      session.endPage - session.startPage + 1;
 
     if (req.body.book) {
-      session.bookId = req.body.book;
+      session.book = req.body.book;
     }
 
     await session.save();
@@ -175,20 +159,13 @@ const updateReadingSession = async (req, res) => {
       currentPage: session.endPage,
     });
 
-    const updated = await ReadingSession.findById(session._id).populate(
-      "bookId",
-      "title author coverImage totalPages genre",
-    );
+    const updated = await ReadingSession.findById(session._id)
+      .populate(
+        "book",
+        "title author coverImage totalPages genre"
+      );
 
-    const result = updated.toObject();
-
-    result.book = result.bookId;
-    delete result.bookId;
-
-    result.minutesRead = result.readingTime;
-    delete result.readingTime;
-
-    res.json(result);
+    res.json(updated);
   } catch (error) {
     res.status(500).json({
       message: error.message,

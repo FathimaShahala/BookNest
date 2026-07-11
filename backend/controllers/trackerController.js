@@ -8,8 +8,13 @@ const Book = require("../models/Book");
 
 const addReadingSession = async (req, res) => {
   try {
-console.log(req.body);
-console.log("BOOK:", req.body.book);    const {
+        console.log("===============");
+
+ console.log(req.body);
+console.log("BOOK:", req.body.book); 
+    console.log("===============");
+
+  const {
       book,
       date,
       startPage,
@@ -21,11 +26,12 @@ console.log("BOOK:", req.body.book);    const {
 
     const pagesRead =
       Number(endPage) - Number(startPage) + 1;
+console.log("BOOK VARIABLE:", book);
 
     const session = await ReadingSession.create({
       userId: req.user._id,
 
-      bookId: book,
+      book,
 
       date,
 
@@ -35,13 +41,13 @@ console.log("BOOK:", req.body.book);    const {
 
       pagesRead,
 
-      readingTime: Number(minutesRead),
+      minutesRead: Number(minutesRead),
 
       mood,
 
       notes,
     });
-
+console.log("SESSION CREATED:", session);
     await Book.findByIdAndUpdate(book, {
       currentPage: endPage,
     });
@@ -53,14 +59,6 @@ console.log("BOOK:", req.body.book);    const {
       );
 
     const result = populatedSession.toObject();
-
-    result.book = result.bookId;
-
-    delete result.bookId;
-
-    result.minutesRead = result.readingTime;
-
-    delete result.readingTime;
 
     res.status(201).json(result);
 

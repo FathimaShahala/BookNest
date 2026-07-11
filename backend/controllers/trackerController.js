@@ -8,7 +8,8 @@ const Book = require("../models/Book");
 
 const addReadingSession = async (req, res) => {
   try {
-    const {
+console.log(req.body);
+console.log("BOOK:", req.body.book);    const {
       book,
       date,
       startPage,
@@ -41,13 +42,13 @@ const addReadingSession = async (req, res) => {
       notes,
     });
 
-    await Book.findByIdAndUpdate(session.book, {
+    await Book.findByIdAndUpdate(book, {
       currentPage: endPage,
     });
 
     const populatedSession = await ReadingSession.findById(session._id)
       .populate(
-        "bookId",
+        "book",
         "title author coverImage totalPages genre"
       );
 
@@ -97,7 +98,7 @@ const getReadingSessions = async (req, res) => {
 
       return item;
     });
-console.log(JSON.stringify(sessions, null, 2));
+
     res.json(formatted);
 
   } catch (error) {
@@ -158,16 +159,13 @@ const updateReadingSession = async (req, res) => {
 
     session.endPage = Number(req.body.endPage ?? session.endPage);
 
-    session.readingTime = Number(
-      req.body.minutesRead ?? session.readingTime
-    );
+    session.readingTime = Number(req.body.minutesRead ?? session.readingTime);
 
     session.mood = req.body.mood ?? session.mood;
 
     session.notes = req.body.notes ?? session.notes;
 
-    session.pagesRead =
-      session.endPage - session.startPage + 1;
+    session.pagesRead = session.endPage - session.startPage + 1;
 
     if (req.body.book) {
       session.bookId = req.body.book;
@@ -175,15 +173,14 @@ const updateReadingSession = async (req, res) => {
 
     await session.save();
 
-    await Book.findByIdAndUpdate(session.bookId, {
+    await Book.findByIdAndUpdate(session.book, {
       currentPage: session.endPage,
     });
 
-    const updated = await ReadingSession.findById(session._id)
-      .populate(
-        "bookId",
-        "title author coverImage totalPages genre"
-      );
+    const updated = await ReadingSession.findById(session._id).populate(
+      "bookId",
+      "title author coverImage totalPages genre",
+    );
 
     const result = updated.toObject();
 
@@ -205,6 +202,5 @@ module.exports = {
   addReadingSession,
   getReadingSessions,
   deleteReadingSession,
-    updateReadingSession,
-
+  updateReadingSession,
 };

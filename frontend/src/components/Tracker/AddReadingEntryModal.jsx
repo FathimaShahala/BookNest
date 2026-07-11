@@ -100,6 +100,7 @@ function AddReadingEntryModal({
 
         toast.success("Reading entry updated!");
       } else {
+        console.log("Form being sent:", form);
         await addReadingSession(form, user.token);
 
         toast.success("Reading entry added!");

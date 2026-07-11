@@ -66,9 +66,12 @@
   display: flex;
   gap: 18px;
   margin-top: 10px;
-  padding: 0 16px 16px;
+  /* padding: 16px 16px; */
 }
-.action_link {padding: 10px;}
+.action_link {
+  display: flex;
+  gap: 5px;
+}
 
 .actions a,
 .actions button {

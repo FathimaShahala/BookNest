@@ -41,6 +41,13 @@ const readingSessionSchema = new mongoose.Schema(
 
     mood: {
       type: String,
+       enum: [
+        "😊",
+        "😍",
+        "🤩",
+        "😌",
+        "😴",
+      ],
       default: "😊",
     },
 
